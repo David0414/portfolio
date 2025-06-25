@@ -113,31 +113,31 @@ const techStackImgs = [
 const techStackIcons = [
   {
     name: "React Developer",
-    modelPath: "/models/react_logo-transformed.glb",
+    imgPath: "/images/logos/react.png",  // Ruta de la imagen de React
     scale: 1,
     rotation: [0, 0, 0],
   },
   {
     name: "Python Developer",
-    modelPath: "/models/python-transformed.glb",
+    imgPath: "/images/logos/python.svg",  // Ruta de la imagen de React
     scale: 0.8,
     rotation: [0, 0, 0],
   },
   {
     name: "Backend Developer",
-    modelPath: "/models/node-transformed.glb",
+    imgPath: "/images/logos/node.png",  // Ruta de la imagen de React
     scale: 5,
     rotation: [0, -Math.PI / 2, 0],
   },
   {
     name: "Interactive Developer",
-    modelPath: "/models/three.js-transformed.glb",
+    imgPath: "/images/logos/three.png",  // Ruta de la imagen de React
     scale: 0.05,
     rotation: [0, 0, 0],
   },
   {
     name: "Project Manager",
-    modelPath: "/models/git-svg-transformed.glb",
+    imgPath: "/images/logos/git.svg",  // Ruta de la imagen de React
     scale: 0.05,
     rotation: [0, -Math.PI / 4, 0],
   },

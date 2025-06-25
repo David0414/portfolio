@@ -1,69 +1,22 @@
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { useEffect } from "react";
 import TitleHeader from "../components/TitleHeader";
-import TechIconCardExperience from "../components/models/tech_logos/TechIconCardExperience";
 import { techStackIcons } from "../constants";
 
 const TechStack = () => {
-  // Animate the tech cards in the skills section
-  useGSAP(() => {
-    // This animation is triggered when the user scrolls to the #skills wrapper
-    gsap.fromTo(
-      ".tech-card",
-      {
-        y: 50, // Move the cards down by 50px
-        opacity: 0, // Set the opacity to 0
-      },
-      {
-        y: 0, // Move the cards back to the top
-        opacity: 1, // Set the opacity to 1
-        duration: 1, // Duration of the animation
-        ease: "power2.inOut", // Ease of the animation
-        stagger: 0.2, // Stagger the animation by 0.2 seconds
-        scrollTrigger: {
-          trigger: "#skills", // Trigger the animation when the user scrolls to the #skills wrapper
-          start: "top center", // Start the animation when the top of the wrapper is at the center of the screen
-        },
-      }
-    );
-  }, []);
-
-  useEffect(() => {
-    // GSAP hover effect for tech cards
-    gsap.utils.toArray(".tech-card").forEach((card) => {
-      gsap.fromTo(
-        card,
-        { scale: 1, rotation: 0 },
-        {
-          scale: 1.1, // Slightly scale the icon
-          rotation: 10, // Rotate slightly for effect
-          ease: "power2.inOut", // Smooth animation
-          paused: true, // Make it paused initially
-          duration: 0.4,
-        }
-      );
-      // Add hover trigger for tech cards
-      card.addEventListener("mouseenter", () => gsap.to(card, { scale: 1.1, rotation: 10 }));
-      card.addEventListener("mouseleave", () => gsap.to(card, { scale: 1, rotation: 0 }));
-    });
-  }, []);
-
   return (
     <div id="skills" className="flex-center section-padding">
       <div className="w-full h-full md:px-10 px-5">
         <TitleHeader title="How I Can Contribute & My Key Skills" sub="🤝 What I Bring to the Table" />
         <div className="tech-grid">
-          {/* Loop through the techStackIcons array and create a component for each item */}
+          {/* Loop through the techStackIcons array and create an image for each item */}
           {techStackIcons.map((techStackIcon) => (
             <div
               key={techStackIcon.name}
               className="card-border tech-card overflow-hidden group xl:rounded-full rounded-lg"
             >
-              <div className="tech-card-animated-bg" />
               <div className="tech-card-content">
                 <div className="tech-icon-wrapper">
-                  <TechIconCardExperience model={techStackIcon} />
+                  {/* Render each tech icon as an image */}
+                  <img src={techStackIcon.imgPath} alt={techStackIcon.name} className="tech-icon" />
                 </div>
                 <div className="padding-x w-full">
                   <p>{techStackIcon.name}</p>

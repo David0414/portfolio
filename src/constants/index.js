@@ -147,7 +147,7 @@ const expCards = [
   {
     review: "“David’s backend logic for our hotel system was efficient, secure, and easy to scale. His structure made managing bookings and users seamless.“",
     imgPath: "/images/exp1.png",
-    logoPath: "/images/logo1.png",
+    logoPath: "/images/logo1.webp",
     title: "Backend Developer (Personal Project)",
     date: " March 2025 – Present",
     responsibilities: [
@@ -162,7 +162,7 @@ const expCards = [
   {
     review: "“David created a simple and powerful UI with accurate financial data tracking. The Excel export and charts elevated the user experience.“",
     imgPath: "/images/exp2.png",
-    logoPath: "/images/logo2.png",
+    logoPath: "/images/logo2.webp",
     title: "Full Stack Developer (Personal Project)",
     date: "February 2025 – April 2025",
     responsibilities: [
@@ -175,7 +175,7 @@ const expCards = [
   {
     review: "“David built a highly responsive and modern FinTech app experience. The integration of live crypto data, OTP login, and smooth gestures showed excellent command of mobile technologies.“",
     imgPath: "/images/exp3.png",
-    logoPath: "/images/logo3.png",
+    logoPath: "/images/logo3.webp",
     title: "Mobile App Developer (Academic)",
     date: "April 2024 – May 2024",
     responsibilities: [

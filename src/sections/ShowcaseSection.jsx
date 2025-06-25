@@ -52,7 +52,7 @@ const AppShowcase = () => {
         {/* Proyecto: Hotel San Felipe */}
         <div className="project bg-[#1C1C21] p-5 rounded-xl">
           <div className="image-wrapper relative rounded-xl overflow-hidden">
-            <img src="/images/project1.png" alt="Hotel" className="w-full rounded-xl object-cover" />
+            <img src="/images/project1.webp" alt="Hotel" className="w-full rounded-xl object-cover" />
             <div className="absolute bottom-4 right-4 space-x-2">
               <a href="https://github.com/David0414/HotelSanFe" target="_blank" rel="noopener noreferrer"
                 className="px-4 py-2 rounded-full bg-white text-black font-semibold shadow hover:bg-black hover:text-white transition">
@@ -71,7 +71,7 @@ const AppShowcase = () => {
         {/* Proyecto: Expense Tracker */}
         <div className="project bg-[#1C1C21] p-5 rounded-xl">
           <div className="image-wrapper relative rounded-xl overflow-hidden">
-            <img src="/images/project2.png" alt="Expense Tracker" className="w-full rounded-xl object-cover" />
+            <img src="/images/project2.webp" alt="Expense Tracker" className="w-full rounded-xl object-cover" />
             <div className="absolute bottom-4 right-4 space-x-2">
               <a href="https://github.com/David0414/expenseTrackerBack" target="_blank" rel="noopener noreferrer"
                 className="px-4 py-2 rounded-full bg-white text-black font-semibold shadow hover:bg-black hover:text-white transition">
@@ -90,7 +90,7 @@ const AppShowcase = () => {
         {/* Proyecto: Employee Management */}
         <div className="project bg-[#1C1C21] p-5 rounded-xl">
           <div className="image-wrapper relative rounded-xl overflow-hidden">
-            <img src="/images/project3.png" alt="Employee CRUD" className="w-full rounded-xl object-cover" />
+            <img src="/images/project3.webp" alt="Employee CRUD" className="w-full rounded-xl object-cover" />
             <div className="absolute bottom-4 right-4 space-x-2">
               <a href="https://github.com/David0414/ProyectoFinalBackend.git" target="_blank" rel="noopener noreferrer"
                 className="px-4 py-2 rounded-full bg-white text-black font-semibold shadow hover:bg-black hover:text-white transition">
@@ -110,7 +110,7 @@ const AppShowcase = () => {
         <div className="project bg-[#1C1C21] p-5 rounded-xl">
           <div className="image-wrapper relative rounded-xl overflow-hidden">
             <video
-              src="/images/finlink-demo.mp4"
+              src="/images/finlink-demo.webm"
               autoPlay
               loop
               muted

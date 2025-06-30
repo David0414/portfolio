@@ -16,18 +16,24 @@ const Experience = () => {
       // Animate the card coming in from the left
       // and fade in
       gsap.from(card, {
-        xPercent: -30,
+        // Move the card in from the left
+        xPercent: -100,
+        // Make the card invisible at the start
         opacity: 0,
+        // Set the origin of the animation to the left side of the card
+        transformOrigin: "left left",
+        // Animate over 1 second
         duration: 1,
-        ease: "power2.out",
+        // Use a power2 ease-in-out curve
+        ease: "power2.inOut",
+        // Trigger the animation when the card is 80% of the way down the screen
         scrollTrigger: {
+          // The card is the trigger element
           trigger: card,
+          // Trigger the animation when the card is 80% down the screen
           start: "top 80%",
-          toggleActions: "play none none reverse", // hace que la animación se revierta si se scrollea hacia arriba
         },
-        stagger: 0.2,
       });
-
     });
 
     // Animate the timeline height as the user scrolls
@@ -100,6 +106,7 @@ const Experience = () => {
                 <div className="xl:w-2/6">
                   <GlowCard card={card}>
                     <div>
+                      <img src={card.imgPath} alt="exp-img" />
                     </div>
                   </GlowCard>
                 </div>

@@ -9,7 +9,7 @@ import GlowCard from "../components/GlowCard";
 gsap.registerPlugin(ScrollTrigger);
 
 const Experience = () => {
-  const isMobile = window.innerWidth < 768;
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
   useGSAP(() => {
     if (isMobile) {
@@ -61,7 +61,7 @@ const Experience = () => {
   return (
     <section
       id="experience"
-      className="flex-center md:mt-40 mt-20 section-padding xl:px-0 pb-20"
+      className="flex-center md:mt-40 mt-20 section-padding xl:px-0"
     >
       <div className="w-full h-full md:px-20 px-5">
         <TitleHeader
@@ -93,9 +93,7 @@ const Experience = () => {
                         <p className="text-[#839CB5] italic">Responsibilities</p>
                         <ul className="list-disc ms-5 mt-5 flex flex-col gap-5 text-white-50">
                           {card.responsibilities.map((resp, i) => (
-                            <li key={i} className="text-lg">
-                              {resp}
-                            </li>
+                            <li key={i} className="text-lg">{resp}</li>
                           ))}
                         </ul>
                       </div>

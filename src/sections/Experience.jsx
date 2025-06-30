@@ -12,9 +12,12 @@ const Experience = () => {
   const isMobile = window.innerWidth < 768;
 
   useGSAP(() => {
-    if (isMobile) return; // ❌ Desactivar animaciones en móvil
+    if (isMobile) {
+      // Línea visible y estática en móvil
+      gsap.set(".timeline", { scaleY: 1 });
+      return;
+    }
 
-    // Animación entrada de tarjetas
     gsap.utils.toArray(".timeline-card").forEach((card) => {
       gsap.from(card, {
         xPercent: -30,
@@ -29,7 +32,6 @@ const Experience = () => {
       });
     });
 
-    // Escalado de línea vertical
     gsap.to(".timeline", {
       transformOrigin: "bottom bottom",
       ease: "power1.inOut",
@@ -37,12 +39,11 @@ const Experience = () => {
         trigger: ".timeline",
         start: "top center",
         end: "70% center",
-        scrub: true, // movimiento suave
+        scrub: true,
       },
-      scaleY: 0.3, // desde 1 hasta esto
+      scaleY: 0.3,
     });
 
-    // Texto que entra desde opacidad
     gsap.utils.toArray(".expText").forEach((text) => {
       gsap.from(text, {
         opacity: 0,
@@ -60,7 +61,7 @@ const Experience = () => {
   return (
     <section
       id="experience"
-      className="flex-center md:mt-40 mt-20 section-padding xl:px-0"
+      className="flex-center md:mt-40 mt-20 section-padding xl:px-0 pb-20"
     >
       <div className="w-full h-full md:px-20 px-5">
         <TitleHeader
@@ -89,9 +90,7 @@ const Experience = () => {
                         <p className="my-5 text-white-50">
                           🗓️&nbsp;{card.date}
                         </p>
-                        <p className="text-[#839CB5] italic">
-                          Responsibilities
-                        </p>
+                        <p className="text-[#839CB5] italic">Responsibilities</p>
                         <ul className="list-disc ms-5 mt-5 flex flex-col gap-5 text-white-50">
                           {card.responsibilities.map((resp, i) => (
                             <li key={i} className="text-lg">

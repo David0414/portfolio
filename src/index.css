@@ -509,3 +509,16 @@ section {
 .animate-fadeIn {
   animation: fadeIn 0.6s ease-out forwards;
 }
+
+
+
+@media (max-width: 767px) {
+  .timeline {
+    transform: scaleY(1) !important;
+    min-height: 300px; /* asegúrate de que tenga altura visible */
+  }
+
+  .timeline-wrapper {
+    min-height: 300px;
+  }
+}

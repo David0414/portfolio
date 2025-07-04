@@ -548,3 +548,21 @@ section {
 }
 
 
+/* Aplicar will-change solo en los elementos clave */
+.timeline-card, .expText {
+  will-change: transform, opacity;
+}
+
+
+
+/* Ajuste del layout de las tarjetas */
+@media (max-width: 768px) {
+  .exp-card-wrapper {
+    flex-direction: column !important;
+  }
+
+
+  .gradient-line {
+    display: none;
+  }
+}

@@ -509,3 +509,42 @@ section {
 .animate-fadeIn {
   animation: fadeIn 0.6s ease-out forwards;
 }
+
+
+
+
+
+
+
+/* Añadir will-change para mejorar el rendimiento */
+.timeline-card,
+.expText {
+  will-change: transform, opacity;
+}
+
+/* Desactivar animaciones en dispositivos móviles */
+@media (max-width: 768px) {
+  .timeline-card, .expText {
+    opacity: 1 !important; /* Evitar el desvanecimiento */
+    transform: none !important; /* Eliminar transformaciones */
+  }
+
+  /* Ajustar la disposición de las tarjetas en móvil */
+  .exp-card-wrapper {
+    flex-direction: column;
+  }
+
+  .timeline-wrapper {
+    position: relative;
+    top: 0;
+    left: 0;
+  }
+
+  /* Optimizar el tamaño de las imágenes en móviles */
+  .exp-card-wrapper img {
+    width: 100%;
+    object-fit: cover;
+  }
+}
+
+

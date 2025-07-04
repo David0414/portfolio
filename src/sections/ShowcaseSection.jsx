@@ -110,7 +110,7 @@ const AppShowcase = () => {
         <div className="project bg-[#1C1C21] p-5 rounded-xl">
           <div className="image-wrapper relative rounded-xl overflow-hidden">
             <video
-              src="/images/finlink-demo.webm"
+              src="/images/finlink-demo.mp4"
               autoPlay
               loop
               muted

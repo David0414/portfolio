@@ -6,7 +6,7 @@ const LogoIcon = ({ icon }) => {
       <img
         src={icon.imgPath}
         alt={icon.name}
-        className="w-20 h-20 object-contain md:w-28 md:h-28"
+        className="logo-icon w-16 h-16 md:w-20 md:h-20 object-contain"
         loading="lazy"
       />
     </div>
@@ -21,7 +21,7 @@ const LogoShowcase = () => (
     </div>
 
     <div className="marquee h-36 md:h-52">
-      <div className="marquee-box flex items-center animate-marquee gap-5 md:gap-12">
+      <div className="marquee-box flex items-center gap-4 md:gap-12 animate-marquee">
         {[...logoIconsList, ...logoIconsList].map((icon, index) => (
           <LogoIcon key={index} icon={icon} />
         ))}

@@ -1,7 +1,6 @@
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useEffect } from "react";
 
 import { expCards } from "../constants";
 import TitleHeader from "../components/TitleHeader";
@@ -10,70 +9,84 @@ import GlowCard from "../components/GlowCard";
 gsap.registerPlugin(ScrollTrigger);
 
 const Experience = () => {
-  const isMobile = window.innerWidth < 768;
-
   useGSAP(() => {
-    if (!isMobile) {
-      // Animaciones para PC (cuando no es móvil)
-      gsap.utils.toArray(".timeline-card").forEach((card) => {
-        gsap.from(card, {
-          xPercent: -100,
-          opacity: 0,
-          transformOrigin: "left left",
-          duration: 1,
-          ease: "power2.inOut",
-          scrollTrigger: {
-            trigger: card,
-            start: "top 80%", // Esto puede ser ajustado para garantizar que se vea al cargar
-            toggleActions: "play none none none", // Esto asegura que la animación se ejecute cuando el elemento entra en vista
-            once: true, // Asegura que se ejecute solo una vez
-          },
-        });
-      });
-
-      // Animación de la línea de tiempo
-      gsap.to(".timeline", {
-        transformOrigin: "bottom bottom",
-        ease: "power1.inOut",
+    // Loop through each timeline card and animate them in
+    // as the user scrolls to each card
+    gsap.utils.toArray(".timeline-card").forEach((card) => {
+      // Animate the card coming in from the left
+      // and fade in
+      gsap.from(card, {
+        // Move the card in from the left
+        xPercent: -100,
+        // Make the card invisible at the start
+        opacity: 0,
+        // Set the origin of the animation to the left side of the card
+        transformOrigin: "left left",
+        // Animate over 1 second
+        duration: 1,
+        // Use a power2 ease-in-out curve
+        ease: "power2.inOut",
+        // Trigger the animation when the card is 80% of the way down the screen
         scrollTrigger: {
-          trigger: ".timeline",
-          start: "top center",
-          end: "70% center",
-          onUpdate: (self) => {
-            gsap.to(".timeline", {
-              scaleY: 1 - self.progress,
-            });
-          },
-          toggleActions: "play none none none", // Para asegurar que la animación se ejecute correctamente
-          once: true, // Esto asegura que la animación se ejecute solo una vez
+          // The card is the trigger element
+          trigger: card,
+          // Trigger the animation when the card is 80% down the screen
+          start: "top 80%",
         },
       });
+    });
 
-      // Animación de los textos
-      gsap.utils.toArray(".expText").forEach((text) => {
-        gsap.from(text, {
-          opacity: 0,
-          xPercent: 0,
-          duration: 1,
-          ease: "power2.inOut",
-          scrollTrigger: {
-            trigger: text,
-            start: "top 60%", // Asegura que el texto se cargue en la posición correcta
-            toggleActions: "play none none none", // Para asegurar que la animación se ejecute correctamente
-            once: true, // Esto asegura que la animación se ejecute solo una vez
-          },
-        });
+    // Animate the timeline height as the user scrolls
+    // from the top of the timeline to 70% down the screen
+    // The timeline height should scale down from 1 to 0
+    // as the user scrolls up the screen
+    gsap.to(".timeline", {
+      // Set the origin of the animation to the bottom of the timeline
+      transformOrigin: "bottom bottom",
+      // Animate the timeline height over 1 second
+      ease: "power1.inOut",
+      // Trigger the animation when the timeline is at the top of the screen
+      // and end it when the timeline is at 70% down the screen
+      scrollTrigger: {
+        trigger: ".timeline",
+        start: "top center",
+        end: "70% center",
+        // Update the animation as the user scrolls
+        onUpdate: (self) => {
+          // Scale the timeline height as the user scrolls
+          // from 1 to 0 as the user scrolls up the screen
+          gsap.to(".timeline", {
+            scaleY: 1 - self.progress,
+          });
+        },
+      },
+    });
+
+    // Loop through each expText element and animate them in
+    // as the user scrolls to each text element
+    gsap.utils.toArray(".expText").forEach((text) => {
+      // Animate the text opacity from 0 to 1
+      // and move it from the left to its final position
+      // over 1 second with a power2 ease-in-out curve
+      gsap.from(text, {
+        // Set the opacity of the text to 0
+        opacity: 0,
+        // Move the text from the left to its final position
+        // (xPercent: 0 means the text is at its final position)
+        xPercent: 0,
+        // Animate over 1 second
+        duration: 1,
+        // Use a power2 ease-in-out curve
+        ease: "power2.inOut",
+        // Trigger the animation when the text is 60% down the screen
+        scrollTrigger: {
+          // The text is the trigger element
+          trigger: text,
+          // Trigger the animation when the text is 60% down the screen
+          start: "top 60%",
+        },
       });
-    } else {
-      // Para móviles, eliminar las animaciones
-      gsap.utils.toArray(".timeline-card").forEach((card) => {
-        gsap.set(card, { opacity: 1, xPercent: 0 });
-      });
-      gsap.set(".timeline", { scaleY: 1 });
-      gsap.utils.toArray(".expText").forEach((text) => {
-        gsap.set(text, { opacity: 1, xPercent: 0 });
-      });
-    }
+    }, "<"); // position parameter - insert at the start of the animation
   }, []);
 
   return (
@@ -86,15 +99,14 @@ const Experience = () => {
           title="Professional Work Experience"
           sub="💼 My Career Overview"
         />
-        <div className="mt-20 md:mt-32 relative">
+        <div className="mt-32 relative">
           <div className="relative z-50 xl:space-y-32 space-y-10">
             {expCards.map((card) => (
               <div key={card.title} className="exp-card-wrapper">
-                <div className="xl:w-2/6 flex justify-center items-center">
-                  {/* Ajuste de la imagen */}
-                  <div className="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 rounded-full w-16 h-16 flex justify-center items-center text-white font-semibold text-xl">
-                    1 {/* Número dentro del círculo */}
-                  </div>
+                <div className="xl:w-2/6">
+                  <GlowCard card={card}>
+                  
+                  </GlowCard>
                 </div>
                 <div className="xl:w-4/6">
                   <div className="flex items-start">
@@ -104,7 +116,7 @@ const Experience = () => {
                     </div>
                     <div className="expText flex xl:gap-20 md:gap-10 gap-5 relative z-20">
                       <div className="timeline-logo">
-                        <img src={card.logoPath} alt="logo" className="w-20 h-15 md:w-28 md:h-28" />
+                        <img src={card.logoPath} alt="logo" />
                       </div>
                       <div>
                         <h1 className="font-semibold text-3xl">{card.title}</h1>

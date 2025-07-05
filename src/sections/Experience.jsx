@@ -86,12 +86,15 @@ const Experience = () => {
           title="Professional Work Experience"
           sub="💼 My Career Overview"
         />
-        <div className="mt-32 relative">
+        <div className="mt-20 md:mt-32 relative">
           <div className="relative z-50 xl:space-y-32 space-y-10">
             {expCards.map((card) => (
               <div key={card.title} className="exp-card-wrapper">
-                <div className="xl:w-2/6">
-                  <GlowCard card={card}></GlowCard>
+                <div className="xl:w-2/6 flex justify-center items-center">
+                  {/* Ajuste de la imagen */}
+                  <div className="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 rounded-full w-16 h-16 flex justify-center items-center text-white font-semibold text-xl">
+                    1 {/* Número dentro del círculo */}
+                  </div>
                 </div>
                 <div className="xl:w-4/6">
                   <div className="flex items-start">

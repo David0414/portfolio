@@ -94,16 +94,25 @@ const Contact = () => {
                 </div>
 
                 <button type="submit">
-                  <div className="cta-button group">
-                    <div className="bg-circle" />
-                    <p className="text">
+                  <div className="cta-button group relative flex items-center justify-center px-4 py-4 rounded-lg bg-black-200 overflow-hidden">
+                    <div className="bg-circle absolute -right-10 top-1/2 -translate-y-1/2 w-[120%] h-[120%] group-hover:size-10 group-hover:right-10 rounded-full bg-white-50 transition-all duration-500" />
+
+                    {/* Ajustar el tamaño del texto en móvil */}
+                    <p className="text text-base md:text-lg group-hover:text-white-50 transition-all duration-500 group-hover:-translate-x-5 xl:translate-x-0 -translate-x-5">
                       {loading ? "Sending..." : "Send Message"}
                     </p>
-                    <div className="arrow-wrapper">
-                      <img src="/images/arrow-down.svg" alt="arrow" />
+
+                    {/* Ajustar el tamaño de la flecha en móvil */}
+                    <div className="arrow-wrapper group-hover:bg-white-50 absolute right-2 top-1/2 -translate-y-1/2 flex justify-center items-center overflow-hidden">
+                      <img
+                        src="/images/arrow-down.svg"
+                        alt="arrow"
+                        className="size-5 xl:-translate-y-32 translate-y-0 animate-bounce group-hover:translate-y-0 transition-all duration-500 w-4 h-4 md:w-5 md:h-5"
+                      />
                     </div>
                   </div>
                 </button>
+
               </form>
             </div>
           </div>

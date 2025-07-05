@@ -16,8 +16,7 @@ const TechStack = () => {
           {iconsToRender.map((techStackIcon, index) => (
             <div
               key={techStackIcon.name}
-              className="card-border tech-card overflow-hidden group xl:rounded-full rounded-lg transition-transform duration-500 ease-in-out hover:scale-105 opacity-0 animate-fadeIn"
-              style={{ animationDelay: `${index * 0.1}s` }}
+              className="card-border tech-card overflow-hidden group xl:rounded-full rounded-lg transition-transform duration-300 ease-in-out hover:scale-105"
             >
               <div className="tech-card-content">
                 <div className="tech-icon-wrapper">

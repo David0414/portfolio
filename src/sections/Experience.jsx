@@ -10,20 +10,26 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Experience = () => {
   useGSAP(() => {
-    gsap.utils.toArray(".timeline-card").forEach((card) => {
+    // Detectar si es móvil
+    const isMobile = window.innerWidth < 768;
+    
+    // Animaciones de tarjetas optimizadas para móvil
+    gsap.utils.toArray(".timeline-card").forEach((card, index) => {
       gsap.from(card, {
-        xPercent: -100,
+        xPercent: isMobile ? -50 : -100,
         opacity: 0,
         transformOrigin: "left left",
-        duration: 1,
-        ease: "power2.inOut",
+        duration: isMobile ? 0.8 : 1,
+        ease: "power2.out",
         scrollTrigger: {
           trigger: card,
-          start: "top 80%",
+          start: isMobile ? "top 90%" : "top 80%",
+          toggleActions: "play none none reverse"
         },
       });
     });
 
+    // Animación de timeline optimizada
     gsap.to(".timeline", {
       transformOrigin: "bottom bottom",
       ease: "power1.inOut",
@@ -34,20 +40,23 @@ const Experience = () => {
         onUpdate: (self) => {
           gsap.to(".timeline", {
             scaleY: 1 - self.progress,
+            duration: isMobile ? 0.2 : 0.3
           });
         },
       },
     });
 
+    // Animación de texto optimizada
     gsap.utils.toArray(".expText").forEach((text) => {
       gsap.from(text, {
         opacity: 0,
         xPercent: 0,
-        duration: 1,
-        ease: "power2.inOut",
+        duration: isMobile ? 0.6 : 1,
+        ease: "power2.out",
         scrollTrigger: {
           trigger: text,
-          start: "top 60%",
+          start: isMobile ? "top 80%" : "top 60%",
+          toggleActions: "play none none reverse"
         },
       });
     });
@@ -63,33 +72,43 @@ const Experience = () => {
           title="Professional Work Experience"
           sub="💼 My Career Overview"
         />
-        <div className="mt-20 relative">
-          <div className="relative z-50 xl:space-y-32 space-y-10">
+        <div className="mt-10 md:mt-20 relative">
+          <div className="relative z-50 space-y-8 md:space-y-16 xl:space-y-32">
             {expCards.map((card, index) => (
               <div
                 key={card.title}
-                className="exp-card-wrapper flex flex-col-reverse xl:flex-row xl:gap-16 gap-8 justify-between"
+                className="exp-card-wrapper flex flex-col-reverse xl:flex-row xl:gap-16 gap-6 md:gap-8 justify-between"
               >
                 <div className="xl:w-2/6 w-full">
                   <GlowCard card={card} index={index} />
                 </div>
                 <div className="xl:w-4/6 w-full">
-                  <div className="flex items-start gap-5 md:gap-10 xl:gap-20">
+                  <div className="flex items-start gap-3 md:gap-5 xl:gap-20">
                     <div className="timeline-wrapper flex justify-center relative xl:left-[35.5vw] md:left-10 left-4 h-full">
-                      <div className="timeline w-2 md:w-6 h-auto bg-black absolute z-30" />
-                      <div className="gradient-line w-1 h-full" />
+                      <div className="timeline w-1 md:w-6 h-auto bg-black absolute z-30" />
+                      <div className="gradient-line w-0.5 md:w-1 h-full" />
                     </div>
-                    <div className="expText flex flex-col gap-5 relative z-20 w-full">
-                      <div className="timeline-logo size-10 md:size-20 flex-none rounded-full flex justify-center items-center border border-black-50 bg-black-100">
-                        <img src={card.logoPath} alt="logo" className="w-full h-full object-contain p-1" />
+                    <div className="expText flex flex-col gap-3 md:gap-5 relative z-20 w-full">
+                      <div className="timeline-logo size-8 md:size-16 xl:size-20 flex-none rounded-full flex justify-center items-center border border-black-50 bg-black-100">
+                        <img 
+                          src={card.logoPath} 
+                          alt="logo" 
+                          className="w-full h-full object-contain p-1" 
+                        />
                       </div>
                       <div>
-                        <h1 className="font-semibold text-2xl md:text-3xl">{card.title}</h1>
-                        <p className="my-3 text-white-50">🗓️ {card.date}</p>
-                        <p className="text-[#839CB5] italic">Responsibilities</p>
-                        <ul className="list-disc ms-5 mt-3 flex flex-col gap-2 text-white-50">
+                        <h1 className="font-semibold text-xl md:text-2xl xl:text-3xl leading-tight">
+                          {card.title}
+                        </h1>
+                        <p className="my-2 md:my-3 text-white-50 text-sm md:text-base">
+                          🗓️ {card.date}
+                        </p>
+                        <p className="text-[#839CB5] italic text-sm md:text-base">
+                          Responsibilities
+                        </p>
+                        <ul className="list-disc ms-4 md:ms-5 mt-2 md:mt-3 flex flex-col gap-2 text-white-50">
                           {card.responsibilities.map((responsibility, index) => (
-                            <li key={index} className="text-base md:text-lg">
+                            <li key={index} className="text-sm md:text-base lg:text-lg leading-relaxed">
                               {responsibility}
                             </li>
                           ))}

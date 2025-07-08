@@ -12,53 +12,56 @@ const Experience = () => {
   useGSAP(() => {
     const isMobile = window.innerWidth < 768;
 
-    // Animaciones de tarjetas optimizadas para móvil
-    gsap.utils.toArray(".timeline-card").forEach((card, index) => {
-      gsap.from(card, {
-        xPercent: isMobile ? -30 : -100, // Reducción de la animación en móviles
-        opacity: 0,
-        transformOrigin: "left left",
-        duration: isMobile ? 0.5 : 1, // Animación más rápida en móvil
-        ease: "power2.out",
+    // Solo activar las animaciones si no es móvil
+    if (!isMobile) {
+      // Animaciones de tarjetas optimizadas para desktop
+      gsap.utils.toArray(".timeline-card").forEach((card, index) => {
+        gsap.from(card, {
+          xPercent: -100,
+          opacity: 0,
+          transformOrigin: "left left",
+          duration: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: card,
+            start: "top 60%",
+            toggleActions: "play none none reverse"
+          },
+        });
+      });
+
+      // Animación de timeline optimizada
+      gsap.to(".timeline", {
+        transformOrigin: "bottom bottom",
+        ease: "power1.inOut",
         scrollTrigger: {
-          trigger: card,
-          start: isMobile ? "top 80%" : "top 60%", // Ajuste en el inicio de la animación
-          toggleActions: "play none none reverse"
+          trigger: ".timeline",
+          start: "top center",
+          end: "70% center",
+          onUpdate: (self) => {
+            gsap.to(".timeline", {
+              scaleY: 1 - self.progress,
+              duration: 0.3
+            });
+          },
         },
       });
-    });
 
-    // Animación de timeline optimizada
-    gsap.to(".timeline", {
-      transformOrigin: "bottom bottom",
-      ease: "power1.inOut",
-      scrollTrigger: {
-        trigger: ".timeline",
-        start: "top center",
-        end: "70% center",
-        onUpdate: (self) => {
-          gsap.to(".timeline", {
-            scaleY: 1 - self.progress,
-            duration: isMobile ? 0.2 : 0.3
-          });
-        },
-      },
-    });
-
-    // Animación de texto optimizada
-    gsap.utils.toArray(".expText").forEach((text) => {
-      gsap.from(text, {
-        opacity: 0,
-        xPercent: 0,
-        duration: isMobile ? 0.5 : 1, // Animación más rápida en móvil
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: text,
-          start: isMobile ? "top 80%" : "top 60%", // Ajuste en el inicio de la animación
-          toggleActions: "play none none reverse"
-        },
+      // Animación de texto optimizada
+      gsap.utils.toArray(".expText").forEach((text) => {
+        gsap.from(text, {
+          opacity: 0,
+          xPercent: 0,
+          duration: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: text,
+            start: "top 60%",
+            toggleActions: "play none none reverse"
+          },
+        });
       });
-    });
+    }
   }, []);
 
   return (

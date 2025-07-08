@@ -21,7 +21,7 @@ const GlowCard = ({ card, index, children }) => {
     };
 
     const card = cardRef.current;
-    if (card) {
+    if (card && window.innerWidth >= 768) {
       card.addEventListener('mousemove', handleMouseMove, { passive: true });
       
       return () => {

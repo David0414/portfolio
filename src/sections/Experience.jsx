@@ -10,20 +10,19 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Experience = () => {
   useGSAP(() => {
-    // Detectar si es móvil
     const isMobile = window.innerWidth < 768;
-    
+
     // Animaciones de tarjetas optimizadas para móvil
     gsap.utils.toArray(".timeline-card").forEach((card, index) => {
       gsap.from(card, {
-        xPercent: isMobile ? -50 : -100,
+        xPercent: isMobile ? -30 : -100, // Reducción de la animación en móviles
         opacity: 0,
         transformOrigin: "left left",
-        duration: isMobile ? 0.8 : 1,
+        duration: isMobile ? 0.5 : 1, // Animación más rápida en móvil
         ease: "power2.out",
         scrollTrigger: {
           trigger: card,
-          start: isMobile ? "top 90%" : "top 80%",
+          start: isMobile ? "top 80%" : "top 60%", // Ajuste en el inicio de la animación
           toggleActions: "play none none reverse"
         },
       });
@@ -51,11 +50,11 @@ const Experience = () => {
       gsap.from(text, {
         opacity: 0,
         xPercent: 0,
-        duration: isMobile ? 0.6 : 1,
+        duration: isMobile ? 0.5 : 1, // Animación más rápida en móvil
         ease: "power2.out",
         scrollTrigger: {
           trigger: text,
-          start: isMobile ? "top 80%" : "top 60%",
+          start: isMobile ? "top 80%" : "top 60%", // Ajuste en el inicio de la animación
           toggleActions: "play none none reverse"
         },
       });

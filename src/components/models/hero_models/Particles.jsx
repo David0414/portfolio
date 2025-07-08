@@ -1,59 +1,118 @@
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useState, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
 
-const Particles = ({ count = 200 }) => {
+const Particles = ({ count = 50 }) => {
   const mesh = useRef();
+  const [isMobile, setIsMobile] = useState(false);
+  const [isLowPerformance, setIsLowPerformance] = useState(false);
 
+  useEffect(() => {
+    const mobile = window.innerWidth < 768;
+    setIsMobile(mobile);
+    
+    // Detectar dispositivos de muy bajo rendimiento
+    const isLowEnd = mobile && (
+      navigator.hardwareConcurrency < 4 || 
+      navigator.deviceMemory < 4 ||
+      /Android.*[4-6]\.|iPhone.*OS [4-9]_/.test(navigator.userAgent)
+    );
+    setIsLowPerformance(isLowEnd);
+  }, []);
+
+  // Ajustar count basado en rendimiento
+  const optimizedCount = useMemo(() => {
+    if (isLowPerformance) return 0; // Sin partículas
+    if (isMobile) return Math.min(count, 20);
+    return Math.min(count, 100);
+  }, [count, isMobile, isLowPerformance]);
+
+  // Generar partículas optimizadas
   const particles = useMemo(() => {
+    if (optimizedCount === 0) return [];
+    
     const temp = [];
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < optimizedCount; i++) {
       temp.push({
         position: [
-          (Math.random() - 0.5) * 10,
-          Math.random() * 10 + 5, // higher starting point
-          (Math.random() - 0.5) * 10,
+          (Math.random() - 0.5) * (isMobile ? 8 : 10),
+          Math.random() * 8 + 4, // Altura ajustada
+          (Math.random() - 0.5) * (isMobile ? 8 : 10),
         ],
-        speed: 0.005 + Math.random() * 0.001,
+        speed: isMobile ? 0.002 + Math.random() * 0.001 : 0.005 + Math.random() * 0.001,
+        resetY: Math.random() * 8 + 4,
       });
     }
     return temp;
-  }, [count]);
+  }, [optimizedCount, isMobile]);
 
+  // Posiciones iniciales
+  const positions = useMemo(() => {
+    if (optimizedCount === 0) return new Float32Array(0);
+    
+    const pos = new Float32Array(optimizedCount * 3);
+    particles.forEach((p, i) => {
+      pos[i * 3] = p.position[0];
+      pos[i * 3 + 1] = p.position[1];
+      pos[i * 3 + 2] = p.position[2];
+    });
+    return pos;
+  }, [particles, optimizedCount]);
+
+  // Configuración de material adaptativa
+  const materialConfig = useMemo(() => ({
+    color: "#ffffff",
+    size: isMobile ? 0.03 : 0.05,
+    transparent: true,
+    opacity: isMobile ? 0.7 : 0.9,
+    depthWrite: false,
+    alphaTest: 0.1, // Mejora performance
+    fog: false,
+    vertexColors: false,
+    sizeAttenuation: !isMobile // Desactivar en móviles para mejor rendimiento
+  }), [isMobile]);
+
+  // Animación optimizada
   useFrame(() => {
+    if (optimizedCount === 0 || !mesh.current) return;
+    
     const positions = mesh.current.geometry.attributes.position.array;
-    for (let i = 0; i < count; i++) {
-      let y = positions[i * 3 + 1];
+    let needsUpdate = false;
+    
+    for (let i = 0; i < optimizedCount; i++) {
+      const yIndex = i * 3 + 1;
+      let y = positions[yIndex];
       y -= particles[i].speed;
-      if (y < -2) y = Math.random() * 10 + 5;
-      positions[i * 3 + 1] = y;
+      
+      if (y < -2) {
+        y = particles[i].resetY;
+        needsUpdate = true;
+      }
+      
+      positions[yIndex] = y;
     }
-    mesh.current.geometry.attributes.position.needsUpdate = true;
+    
+    if (needsUpdate) {
+      mesh.current.geometry.attributes.position.needsUpdate = true;
+    }
   });
 
-  const positions = new Float32Array(count * 3);
-  particles.forEach((p, i) => {
-    positions[i * 3] = p.position[0];
-    positions[i * 3 + 1] = p.position[1];
-    positions[i * 3 + 2] = p.position[2];
-  });
+  // No renderizar si no hay partículas
+  if (optimizedCount === 0) {
+    return null;
+  }
 
   return (
-    <points ref={mesh}>
+    <points ref={mesh} frustumCulled={true}>
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
-          count={count}
+          count={optimizedCount}
           array={positions}
           itemSize={3}
+          usage={isMobile ? 1 : 0} // DYNAMIC_DRAW en móviles, STATIC_DRAW en desktop
         />
       </bufferGeometry>
-      <pointsMaterial
-        color="#ffffff"
-        size={0.05}
-        transparent
-        opacity={0.9}
-        depthWrite={false}
-      />
+      <pointsMaterial {...materialConfig} />
     </points>
   );
 };

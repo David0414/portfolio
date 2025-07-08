@@ -209,6 +209,19 @@ const expLogos = [
 
 
 const socialImgs = [
+  
+  {
+    name: "Gihtub",
+    imgPath: "/images/github-logo.png",
+    link: "https://www.instagram.com/david.merez/",
+
+  },
+  {
+    name: "linkedin",
+    imgPath: "/images/linkedin.png",
+    link: "https://www.linkedin.com/in/david-mendoza-p%C3%A9rez-933627194/",
+
+  },
   {
     name: "insta",
     imgPath: "/images/insta.png",
@@ -216,21 +229,9 @@ const socialImgs = [
 
   },
   {
-    name: "fb",
-    imgPath: "/images/fb.png",
-    link: "https://www.instagram.com/david.merez/",
-
-  },
-  {
-    name: "x",
-    imgPath: "/images/x.png",
-    link: "https://www.instagram.com/david.merez/",
-
-  },
-  {
-    name: "linkedin",
-    imgPath: "/images/linkedin.png",
-    link: "https://www.instagram.com/david.merez/",
+    name: "Whats",
+    imgPath: "/images/whatsapp.png",
+    link: "https://wa.me/4426651403",
 
   },
 ];

@@ -42,9 +42,18 @@ const NavBar = () => {
           </ul>
         </nav>
 
-        <a href="#contact" className="contact-btn group">
+        <a
+          href="https://wa.me/4426651403"
+          className="contact-btn group"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <div className="inner">
-            <span>Contact me</span>
+            <img
+              src="images/whats-black.png" 
+              alt="WhatsApp"
+              style={{ width: '24px', height: '24px' }} // Tamaño del ícono
+            />
           </div>
         </a>
       </div>

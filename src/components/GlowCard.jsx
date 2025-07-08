@@ -1,63 +1,46 @@
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 
 const GlowCard = ({ card, index, children }) => {
-  const cardRef = useRef(null);
+  // refs for all the cards
+  const cardRefs = useRef([]);
 
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      // Solo aplicar efecto glow en desktop
-      if (window.innerWidth >= 768) {
-        const card = cardRef.current;
-        if (!card) return;
+  // when mouse moves over a card, rotate the glow effect
+  const handleMouseMove = (index) => (e) => {
+    // get the current card
+    const card = cardRefs.current[index];
+    if (!card) return;
 
-        const rect = card.getBoundingClientRect();
-        const mouseX = e.clientX - rect.left - rect.width / 2;
-        const mouseY = e.clientY - rect.top - rect.height / 2;
+    // get the mouse position relative to the card
+    const rect = card.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left - rect.width / 2;
+    const mouseY = e.clientY - rect.top - rect.height / 2;
 
-        let angle = Math.atan2(mouseY, mouseX) * (180 / Math.PI);
-        angle = (angle + 360) % 360;
-        card.style.setProperty("--start", angle + 60);
-      }
-    };
+    // calculate the angle from the center of the card to the mouse
+    let angle = Math.atan2(mouseY, mouseX) * (180 / Math.PI);
 
-    const card = cardRef.current;
-    if (card && window.innerWidth >= 768) {
-      card.addEventListener('mousemove', handleMouseMove, { passive: true });
-      
-      return () => {
-        card.removeEventListener('mousemove', handleMouseMove);
-      };
-    }
-  }, []);
+    // adjust the angle so that it's between 0 and 360
+    angle = (angle + 360) % 360;
 
+    // set the angle as a CSS variable
+    card.style.setProperty("--start", angle + 60);
+  };
+
+  // return the card component with the mouse move event
   return (
     <div
-      ref={cardRef}
-      className="card card-border timeline-card rounded-xl p-4 md:p-6 mb-4 md:mb-6 break-inside-avoid-column"
+      ref={(el) => (cardRefs.current[index] = el)}
+      onMouseMove={handleMouseMove(index)}
+      className="card card-border timeline-card rounded-xl p-10 mb-5 break-inside-avoid-column"
     >
-      {/* Glow effect - solo en desktop */}
-      <div className="glow hidden md:block"></div>
-      
-      {/* Estrellas con tamaño responsive */}
-      <div className="flex items-center gap-1 md:gap-2 mb-3 md:mb-4">
+      <div className="glow"></div>
+      <div className="flex items-center gap-1 mb-5">
         {Array.from({ length: 5 }, (_, i) => (
-          <img 
-            key={i} 
-            src="/images/star.png" 
-            alt="star" 
-            className="size-3 md:size-4 star-icon" 
-          />
+          <img key={i} src="/images/star.png" alt="star" className="size-5" />
         ))}
       </div>
-      
-      {/* Contenido de la tarjeta */}
-      <div className="mb-4 md:mb-5">
-        <p className="text-white-50 text-sm md:text-base leading-relaxed">
-          {card.review}
-        </p>
+      <div className="mb-5">
+        <p className="text-white-50 text-lg">{card.review}</p>
       </div>
-      
-      {/* Contenido adicional */}
       {children}
     </div>
   );

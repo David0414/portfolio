@@ -157,6 +157,31 @@ const AppShowcase = () => {
           <p className="text-white-50">Project for the optimization of routes in case of natural disasters or emergencies using algorithms like Dijkstra and AI to find the most suitable route.</p>
         </div>
 
+
+
+
+        {/* Sistema de servido local encriptado */}
+        <div className="project bg-[#1C1C21] p-5 rounded-xl">
+          <div className="image-wrapper relative rounded-xl overflow-hidden">
+            <img src="/images/project5.webp" alt="Employee CRUD" className="w-full rounded-xl object-cover" />
+            <div className="absolute bottom-4 right-4 space-x-2">
+              <a href="https://github.com/David0414/SRIFrontend.git" target="_blank" rel="noopener noreferrer"
+                className="px-4 py-2 rounded-full bg-white text-black font-semibold shadow hover:bg-black hover:text-white transition">
+                GitHub
+              </a>
+              <a href="https://storagemanagementsaas-production.up.railway.app" target="_blank" rel="noopener noreferrer"
+                className="px-4 py-2 rounded-full bg-black text-white font-semibold shadow hover:bg-white hover:text-black transition">
+                Live
+              </a>
+            </div>
+          </div>
+          <h2 className="mt-4 text-xl font-semibold text-white">Personal  Encrypted server</h2>
+          <p className="text-white-50">Personal online server as Gooogle Drive, but manages encrypted information</p>
+        </div>
+
+
+
+
       </div>
     </div>
   );

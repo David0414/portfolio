@@ -160,30 +160,65 @@ const AppShowcase = () => {
 
 
 
-        {/* Sistema de servido local encriptado */}
+        {/* Proyecto: AquaQR / One Water (REEMPLAZA al servidor encriptado) */}
         <div className="project bg-[#1C1C21] p-5 rounded-xl">
           <div className="image-wrapper relative rounded-xl overflow-hidden">
-            <img src="/images/project5.webp" alt="Employee CRUD" className="w-full rounded-xl object-cover" />
+            {/* Video como FinLink */}
+            <video
+              src="/images/aquaqr-demo.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full max-h-[300px] rounded-xl object-contain"
+            />
+
+            {/* Botones GitHub / Live / Demo */}
             <div className="absolute bottom-4 right-4 space-x-2">
-              <a href="https://github.com/David0414/SRIFrontend.git" target="_blank" rel="noopener noreferrer"
-                className="px-4 py-2 rounded-full bg-white text-black font-semibold shadow hover:bg-black hover:text-white transition">
+              <a
+                href="https://github.com/REEMPLAZA-ESTO/AquaQR"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 rounded-full bg-white text-black font-semibold shadow hover:bg-black hover:text-white transition"
+              >
                 GitHub
               </a>
-              <a href="https://storagemanagementsaas-production.up.railway.app" target="_blank" rel="noopener noreferrer"
-                className="px-4 py-2 rounded-full bg-black text-white font-semibold shadow hover:bg-white hover:text-black transition">
+
+              <a
+                href="https://REEMPLAZA-ESTO/live"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 rounded-full bg-black text-white font-semibold shadow hover:bg-white hover:text-black transition"
+              >
                 Live
+              </a>
+
+              <a
+                href="/images/aquaqr-demo.mp4"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 rounded-full bg-white text-black font-semibold shadow hover:bg-black hover:text-white transition"
+              >
+                Demo
               </a>
             </div>
           </div>
-          <h2 className="mt-4 text-xl font-semibold text-white">Personal  Encrypted server</h2>
-          <p className="text-white-50">Personal online server as Gooogle Drive, but manages encrypted information</p>
+
+          <h2 className="mt-4 text-xl font-semibold text-white">
+            AquaQR (One Water) – IoT Water Vending Platform
+          </h2>
+
+          <p className="text-white-50">
+            Full-stack QR-based water dispensing ecosystem with telemetry dashboards,
+            user wallets and payments, and secure machine-level QR signing/verification.
+            Built with React/Vite/Tailwind, Node/Express, Supabase, Stripe, and ESP32/Raspberry Pi integration.
+          </p>
         </div>
 
 
 
-
-      </div>
-    </div>
+      </div >
+    </div >
   );
 
 

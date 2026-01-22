@@ -185,7 +185,7 @@ const AppShowcase = () => {
               </a>
 
               <a
-                href="https://REEMPLAZA-ESTO/live"
+                href="https://aquaqr-front.vercel.app/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 py-2 rounded-full bg-black text-white font-semibold shadow hover:bg-white hover:text-black transition"

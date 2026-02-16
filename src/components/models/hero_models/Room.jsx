@@ -11,20 +11,20 @@ export function Room(props) {
   useEffect(() => {
     const mobile = window.innerWidth < 768;
     setIsMobile(mobile);
+    const hardwareConcurrency = navigator.hardwareConcurrency ?? 8;
+    const deviceMemory = navigator.deviceMemory ?? 8;
     
     // Detectar dispositivos de muy bajo rendimiento
     const isLowEnd = mobile && (
-      navigator.hardwareConcurrency < 4 || 
-      navigator.deviceMemory < 4 ||
+      hardwareConcurrency < 4 || 
+      deviceMemory < 4 ||
       /Android.*[4-6]\.|iPhone.*OS [4-9]_/.test(navigator.userAgent)
     );
     setIsLowPerformance(isLowEnd);
   }, []);
 
-  // Cargar textura solo si no es dispositivo de bajo rendimiento
-  const matcapTexture = useTexture(
-    !isLowPerformance ? "/images/textures/mat1.png" : null
-  );
+  // Hook estable: cargar una sola vez y decidir en materiales si se usa o no
+  const matcapTexture = useTexture("/images/textures/mat1.png");
 
   // Materiales optimizados con memoización
   const optimizedMaterials = useMemo(() => {

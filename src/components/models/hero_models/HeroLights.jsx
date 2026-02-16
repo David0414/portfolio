@@ -31,7 +31,7 @@ const HeroLights = () => {
         },
         primary: {
           position: [2.5, 4.8, 5],
-          intensity: 38,
+          intensity: 45,
           color: "#ffffff",
           angle: 0.34,
           penumbra: 0.6,
@@ -39,8 +39,8 @@ const HeroLights = () => {
         },
         fill: {
           position: [-2.5, 2.5, 2],
-          intensity: 6,
-          color: "#93c5fd",
+          intensity: 10,
+          color: "#a5b4fc",
           distance: 12,
         },
       };
@@ -50,7 +50,7 @@ const HeroLights = () => {
       return {
         primary: {
           position: [2.2, 5, 6],
-          intensity: 58,
+          intensity: 64,
           color: "#ffffff",
           angle: 0.23,
           penumbra: 0.35,
@@ -58,7 +58,7 @@ const HeroLights = () => {
         },
         secondary: {
           position: [4, 5, 4],
-          intensity: 22,
+          intensity: 28,
           color: "#60a5fa",
           angle: 0.4,
           penumbra: 0.6,
@@ -66,8 +66,8 @@ const HeroLights = () => {
         },
         ambient: {
           position: [0, 1, 0],
-          intensity: 6,
-          color: "#8b5cf6",
+          intensity: 9,
+          color: "#a78bfa",
           distance: 16,
         },
       };

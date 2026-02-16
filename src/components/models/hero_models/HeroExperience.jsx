@@ -1,6 +1,7 @@
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Suspense, useMemo, useState, useEffect } from "react";
+import * as THREE from "three";
 
 import { Room } from "./Room";
 import HeroLights from "./HeroLights";
@@ -38,7 +39,7 @@ const HeroExperience = () => {
   const canvasConfig = useMemo(() => {
     if (isLowPerformance) {
       return {
-        dpr: [0.65, 1],
+        dpr: [0.9, 1.25],
         shadows: false,
         antialias: false,
         alpha: false,
@@ -55,7 +56,7 @@ const HeroExperience = () => {
 
     if (isMobile) {
       return {
-        dpr: [0.85, 1.5],
+        dpr: [1, 2],
         shadows: false,
         antialias: true,
         alpha: false,
@@ -70,7 +71,7 @@ const HeroExperience = () => {
     }
 
     return {
-      dpr: [1, 1.75],
+      dpr: [1.25, 2],
       shadows: false,
       antialias: true,
       alpha: false,
@@ -147,13 +148,16 @@ const HeroExperience = () => {
       gl={canvasConfig}
       shadows={canvasConfig.shadows}
       frameloop="always"
-      performance={{ min: 0.45, max: 1, debounce: 120 }}
+      performance={{ min: 0.6, max: 1, debounce: 80 }}
       onCreated={(state) => {
         // Optimizaciones adicionales
         state.gl.setClearColor("#000000", 1);
         state.gl.setPixelRatio(
           Math.min(window.devicePixelRatio, canvasConfig.dpr[1])
         );
+        state.gl.outputColorSpace = THREE.SRGBColorSpace;
+        state.gl.toneMapping = THREE.ACESFilmicToneMapping;
+        state.gl.toneMappingExposure = isMobile ? 1.05 : 1;
 
         // Configurar precisión para móviles
         if (isMobile) {

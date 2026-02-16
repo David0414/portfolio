@@ -26,13 +26,20 @@ export function Room(props) {
   // Hook estable: cargar una sola vez y decidir en materiales si se usa o no
   const matcapTexture = useTexture("/images/textures/mat1.png");
 
+  useEffect(() => {
+    if (!matcapTexture) return;
+    matcapTexture.colorSpace = THREE.SRGBColorSpace;
+    matcapTexture.anisotropy = 4;
+    matcapTexture.needsUpdate = true;
+  }, [matcapTexture]);
+
   // Materiales optimizados con memoización
   const optimizedMaterials = useMemo(() => {
     const baseConfig = {
       transparent: false,
       fog: false,
       dithering: false,
-      precision: "mediump",
+      precision: isLowPerformance ? "mediump" : "highp",
       flatShading: isLowPerformance,
     };
 
@@ -40,7 +47,7 @@ export function Room(props) {
     if (isLowPerformance) {
       return {
         curtain: new THREE.MeshLambertMaterial({ ...baseConfig, color: "#d90429" }),
-        body: new THREE.MeshLambertMaterial({ ...baseConfig, color: "#93644c" }),
+        body: new THREE.MeshLambertMaterial({ ...baseConfig, map: matcapTexture, color: "#c08457" }),
         table: new THREE.MeshLambertMaterial({ ...baseConfig, color: "#582f0e" }),
         radiator: new THREE.MeshLambertMaterial({ ...baseConfig, color: "#f8fafc" }),
         comp: new THREE.MeshLambertMaterial({ ...baseConfig, color: "#e2e8f0" }),

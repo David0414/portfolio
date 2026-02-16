@@ -15,13 +15,15 @@ const HeroExperience = () => {
     const checkDevice = () => {
       const mobile = window.innerWidth < 768;
       const tablet = window.innerWidth < 1024;
+      const hardwareConcurrency = navigator.hardwareConcurrency ?? 8;
+      const deviceMemory = navigator.deviceMemory ?? 8;
       setIsMobile(mobile);
       setIsTablet(tablet);
       
       // Detectar dispositivos de muy bajo rendimiento
       const isLowEnd = mobile && (
-        navigator.hardwareConcurrency < 4 || 
-        navigator.deviceMemory < 4 ||
+        hardwareConcurrency < 4 || 
+        deviceMemory < 4 ||
         /Android.*[4-6]\.|iPhone.*OS [4-9]_/.test(navigator.userAgent)
       );
       setIsLowPerformance(isLowEnd);
@@ -70,7 +72,7 @@ const HeroExperience = () => {
         antialias: true,
         alpha: false,
         powerPreference: "high-performance",
-        failIfMajorPerformanceCaveal: false,
+        failIfMajorPerformanceCaveat: false,
         stencil: false,
         depth: true,
         precision: 'highp'
@@ -138,7 +140,7 @@ const HeroExperience = () => {
       onCreated={(state) => {
         // Optimizaciones adicionales
         state.gl.setClearColor('#000000', 1);
-        state.gl.pixelRatio = Math.min(window.devicePixelRatio, canvasConfig.dpr[1]);
+        state.gl.setPixelRatio(Math.min(window.devicePixelRatio, canvasConfig.dpr[1]));
         
         // Configurar precisión para móviles
         if (isMobile) {

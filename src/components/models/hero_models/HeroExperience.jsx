@@ -9,17 +9,14 @@ import Particles from "./Particles";
 
 const HeroExperience = () => {
   const [isMobile, setIsMobile] = useState(false);
-  const [isTablet, setIsTablet] = useState(false);
   const [isLowPerformance, setIsLowPerformance] = useState(false);
 
   useEffect(() => {
     const checkDevice = () => {
       const mobile = window.innerWidth < 768;
-      const tablet = window.innerWidth < 1024;
       const hardwareConcurrency = navigator.hardwareConcurrency ?? 8;
       const deviceMemory = navigator.deviceMemory ?? 8;
       setIsMobile(mobile);
-      setIsTablet(tablet);
 
       // Detectar dispositivos de muy bajo rendimiento
       const isLowEnd =
@@ -98,19 +95,20 @@ const HeroExperience = () => {
   const controlsConfig = useMemo(
     () => ({
       enablePan: false,
-      enableZoom: !isTablet,
-      enableRotate: !isLowPerformance,
+      enableZoom: true,
+      enableRotate: true,
       enableDamping: true,
-      dampingFactor: isMobile ? 0.08 : 0.06,
-      maxDistance: isMobile ? 16 : 20,
-      minDistance: isMobile ? 8 : 5,
+      dampingFactor: isLowPerformance ? 0.11 : isMobile ? 0.095 : 0.06,
+      maxDistance: isMobile ? 15.5 : 20,
+      minDistance: isMobile ? 8.5 : 5,
       minPolarAngle: Math.PI / 5,
       maxPolarAngle: Math.PI / 2,
       autoRotate: false,
-      rotateSpeed: isMobile ? 0.4 : 0.55,
+      rotateSpeed: isLowPerformance ? 0.28 : isMobile ? 0.36 : 0.55,
+      zoomSpeed: isMobile ? 0.72 : 0.9,
       target: [0, -1, 0],
     }),
-    [isMobile, isTablet, isLowPerformance]
+    [isMobile, isLowPerformance]
   );
 
   // Configuración de partículas adaptativa

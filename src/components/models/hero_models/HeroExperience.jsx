@@ -109,7 +109,7 @@ const HeroExperience = () => {
       minPolarAngle: Math.PI / 5,
       maxPolarAngle: Math.PI / 2,
       autoRotate: isMobile,
-      autoRotateSpeed: isLowPerformance ? 0.9 : 0.35,
+      autoRotateSpeed: isLowPerformance ? 1.5 : 0.35,
       rotateSpeed: isMobile ? 0.3 : 0.55,
       target: [0, -1, 0],
     }),

@@ -1,4 +1,3 @@
-import * as THREE from "three";
 import { useMemo, useState, useEffect } from "react";
 
 const HeroLights = () => {
@@ -50,25 +49,25 @@ const HeroLights = () => {
       return {
         primary: {
           position: [2.2, 5, 6],
-          intensity: 58,
+          intensity: 52,
           color: "#ffffff",
-          angle: 0.23,
-          penumbra: 0.35,
+          angle: 0.25,
+          penumbra: 0.5,
           distance: 27,
         },
         secondary: {
-          position: [4, 5, 4],
-          intensity: 22,
+          position: [3.7, 4.6, 3.5],
+          intensity: 14,
           color: "#60a5fa",
           angle: 0.4,
           penumbra: 0.6,
-          distance: 25,
+          distance: 20,
         },
         ambient: {
           position: [0, 1, 0],
-          intensity: 6,
-          color: "#8b5cf6",
-          distance: 16,
+          intensity: 3.6,
+          color: "#7c3aed",
+          distance: 14,
         },
       };
     }
@@ -217,13 +216,11 @@ const HeroLights = () => {
         distance={30}
       />
 
-      <primitive
-        object={new THREE.RectAreaLight(
-          lightConfig.area.color,
-          lightConfig.area.intensity,
-          lightConfig.area.width,
-          lightConfig.area.height
-        )}
+      <rectAreaLight
+        color={lightConfig.area.color}
+        intensity={lightConfig.area.intensity}
+        width={lightConfig.area.width}
+        height={lightConfig.area.height}
         position={lightConfig.area.position}
         rotation={lightConfig.area.rotation}
       />

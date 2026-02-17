@@ -1,5 +1,6 @@
-import { OrbitControls } from "@react-three/drei";
+import { AdaptiveDpr, AdaptiveEvents, OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
+import * as THREE from "three";
 import { Suspense, useMemo, useState, useEffect } from "react";
 
 import { Room } from "./Room";
@@ -55,9 +56,9 @@ const HeroExperience = () => {
 
     if (isMobile) {
       return {
-        dpr: [0.85, 1.5],
+        dpr: [0.8, 1.25],
         shadows: false,
-        antialias: true,
+        antialias: false,
         alpha: false,
         powerPreference: "default",
         failIfMajorPerformanceCaveat: false,
@@ -70,7 +71,7 @@ const HeroExperience = () => {
     }
 
     return {
-      dpr: [1, 1.75],
+      dpr: [1, 1.5],
       shadows: false,
       antialias: true,
       alpha: false,
@@ -99,7 +100,7 @@ const HeroExperience = () => {
       enablePan: false,
       enableZoom: !isTablet,
       enableRotate: !isLowPerformance,
-      enableDamping: true,
+      enableDamping: !isLowPerformance,
       dampingFactor: isMobile ? 0.08 : 0.06,
       maxDistance: isMobile ? 16 : 20,
       minDistance: isMobile ? 8 : 5,
@@ -114,8 +115,8 @@ const HeroExperience = () => {
 
   // Configuración de partículas adaptativa
   const particleCount = useMemo(() => {
-    if (isLowPerformance) return 10;
-    if (isMobile) return 30;
+    if (isLowPerformance) return 0;
+    if (isMobile) return 18;
     return 50;
   }, [isMobile, isLowPerformance]);
 
@@ -154,6 +155,9 @@ const HeroExperience = () => {
         state.gl.setPixelRatio(
           Math.min(window.devicePixelRatio, canvasConfig.dpr[1])
         );
+        state.gl.outputColorSpace = THREE.SRGBColorSpace;
+        state.gl.toneMapping = THREE.ACESFilmicToneMapping;
+        state.gl.toneMappingExposure = isMobile ? 1.05 : 1.12;
 
         // Configurar precisión para móviles
         if (isMobile) {
@@ -165,9 +169,12 @@ const HeroExperience = () => {
         state.camera.updateProjectionMatrix();
       }}
     >
+      <AdaptiveEvents />
+      <AdaptiveDpr pixelated />
+
       {/* Luz ambiental simplificada */}
       <ambientLight
-        intensity={isLowPerformance ? 0.38 : 0.28}
+        intensity={isLowPerformance ? 0.34 : isMobile ? 0.3 : 0.28}
         color={isLowPerformance ? "#f6f7ff" : "#1a1a40"}
       />
 

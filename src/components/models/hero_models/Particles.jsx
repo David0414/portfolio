@@ -1,5 +1,6 @@
 import { useRef, useMemo, useState, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
+import * as THREE from "three";
 
 const Particles = ({ count = 50 }) => {
   const mesh = useRef();
@@ -76,7 +77,6 @@ const Particles = ({ count = 50 }) => {
     if (optimizedCount === 0 || !mesh.current) return;
     
     const positions = mesh.current.geometry.attributes.position.array;
-    let needsUpdate = false;
     
     for (let i = 0; i < optimizedCount; i++) {
       const yIndex = i * 3 + 1;
@@ -85,15 +85,12 @@ const Particles = ({ count = 50 }) => {
       
       if (y < -2) {
         y = particles[i].resetY;
-        needsUpdate = true;
       }
       
       positions[yIndex] = y;
     }
     
-    if (needsUpdate) {
-      mesh.current.geometry.attributes.position.needsUpdate = true;
-    }
+    mesh.current.geometry.attributes.position.needsUpdate = true;
   });
 
   // No renderizar si no hay partículas
@@ -109,7 +106,7 @@ const Particles = ({ count = 50 }) => {
           count={optimizedCount}
           array={positions}
           itemSize={3}
-          usage={isMobile ? 1 : 0} // DYNAMIC_DRAW en móviles, STATIC_DRAW en desktop
+          usage={THREE.DynamicDrawUsage}
         />
       </bufferGeometry>
       <pointsMaterial {...materialConfig} />

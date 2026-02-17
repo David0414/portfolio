@@ -1,9 +1,11 @@
 import React, { useRef, useMemo, useState, useEffect } from "react";
 import { useGLTF, useTexture } from "@react-three/drei";
+import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
 
 export function Room(props) {
   const { nodes, materials } = useGLTF("/models/optimized-room.glb");
+  const gl = useThree((state) => state.gl);
   const screensRef = useRef();
   const [isMobile, setIsMobile] = useState(false);
   const [isLowPerformance, setIsLowPerformance] = useState(false);
@@ -25,6 +27,19 @@ export function Room(props) {
 
   // Hook estable: cargar una sola vez y decidir en materiales si se usa o no
   const matcapTexture = useTexture("/images/textures/mat1.png");
+
+  useEffect(() => {
+    if (!matcapTexture) return;
+    matcapTexture.colorSpace = THREE.SRGBColorSpace;
+    matcapTexture.wrapS = THREE.ClampToEdgeWrapping;
+    matcapTexture.wrapT = THREE.ClampToEdgeWrapping;
+    matcapTexture.minFilter = THREE.LinearMipmapLinearFilter;
+    matcapTexture.magFilter = THREE.LinearFilter;
+    matcapTexture.anisotropy = isMobile
+      ? 1
+      : Math.min(4, gl.capabilities.getMaxAnisotropy());
+    matcapTexture.needsUpdate = true;
+  }, [matcapTexture, isMobile, gl]);
 
   // Materiales optimizados con memoización
   const optimizedMaterials = useMemo(() => {
@@ -75,6 +90,16 @@ export function Room(props) {
       chair: new THREE.MeshPhongMaterial({ color: "#000" }),
     };
   }, [isMobile, isLowPerformance, matcapTexture]);
+
+  useEffect(() => {
+    return () => {
+      Object.values(optimizedMaterials).forEach((material) => {
+        if (material && typeof material.dispose === "function") {
+          material.dispose();
+        }
+      });
+    };
+  }, [optimizedMaterials]);
 
   const CriticalMeshes = useMemo(
     () => (

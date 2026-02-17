@@ -13,7 +13,7 @@ const TechStack = () => {
           sub="🤝 What I Bring to the Table"
         />
         <div className="tech-grid">
-          {iconsToRender.map((techStackIcon, index) => (
+          {iconsToRender.map((techStackIcon) => (
             <div
               key={techStackIcon.name}
               className="card-border tech-card overflow-hidden group xl:rounded-full rounded-lg transition-transform duration-300 ease-in-out hover:scale-105"

@@ -48,7 +48,7 @@ export function Room(props) {
       fog: false,
       dithering: false,
       precision: "mediump",
-      flatShading: isLowPerformance,
+      flatShading: false,
     };
 
     // Materiales simplificados pero iluminados para mantener mejor calidad visual

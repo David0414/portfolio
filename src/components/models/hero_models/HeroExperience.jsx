@@ -39,7 +39,7 @@ const HeroExperience = () => {
   const canvasConfig = useMemo(() => {
     if (isLowPerformance) {
       return {
-        dpr: [0.65, 1],
+        dpr: [0.85, 1.15],
         shadows: false,
         antialias: false,
         alpha: false,
@@ -56,7 +56,7 @@ const HeroExperience = () => {
 
     if (isMobile) {
       return {
-        dpr: [0.8, 1.25],
+        dpr: [0.9, 1.3],
         shadows: false,
         antialias: false,
         alpha: false,
@@ -99,15 +99,16 @@ const HeroExperience = () => {
     () => ({
       enablePan: false,
       enableZoom: !isTablet,
-      enableRotate: !isLowPerformance,
+      enableRotate: !isLowPerformance && !isMobile,
       enableDamping: !isLowPerformance,
       dampingFactor: isMobile ? 0.08 : 0.06,
       maxDistance: isMobile ? 16 : 20,
       minDistance: isMobile ? 8 : 5,
       minPolarAngle: Math.PI / 5,
       maxPolarAngle: Math.PI / 2,
-      autoRotate: false,
-      rotateSpeed: isMobile ? 0.4 : 0.55,
+      autoRotate: isMobile,
+      autoRotateSpeed: isLowPerformance ? 0.45 : 0.35,
+      rotateSpeed: isMobile ? 0.3 : 0.55,
       target: [0, -1, 0],
     }),
     [isMobile, isTablet, isLowPerformance]
@@ -170,7 +171,7 @@ const HeroExperience = () => {
       }}
     >
       <AdaptiveEvents />
-      <AdaptiveDpr pixelated />
+      <AdaptiveDpr />
 
       {/* Luz ambiental simplificada */}
       <ambientLight

@@ -22,11 +22,13 @@ const HeroExperience = () => {
       setIsTablet(tablet);
 
       // Detectar dispositivos de muy bajo rendimiento
+      const isAndroid = /Android/i.test(navigator.userAgent);
       const isLowEnd =
         mobile &&
+        isAndroid &&
         (hardwareConcurrency < 4 ||
           deviceMemory < 4 ||
-          /Android.*[4-6]\.|iPhone.*OS [4-9]_/.test(navigator.userAgent));
+          /Android.*[4-6]\./.test(navigator.userAgent));
       setIsLowPerformance(isLowEnd);
     };
 
@@ -107,7 +109,7 @@ const HeroExperience = () => {
       minPolarAngle: Math.PI / 5,
       maxPolarAngle: Math.PI / 2,
       autoRotate: isMobile,
-      autoRotateSpeed: isLowPerformance ? 0.45 : 0.35,
+      autoRotateSpeed: isLowPerformance ? 0.9 : 0.35,
       rotateSpeed: isMobile ? 0.3 : 0.55,
       target: [0, -1, 0],
     }),

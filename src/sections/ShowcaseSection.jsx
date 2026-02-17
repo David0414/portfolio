@@ -49,6 +49,40 @@ const AppShowcase = () => {
     <div id="work" ref={sectionRef} className="app-showcase px-5 md:px-20 py-20">
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10">
 
+
+        {/* Proyecto: Agua24 PORTAL con video */}
+        <div className="project bg-[#1C1C21] p-5 rounded-xl">
+          <div className="image-wrapper relative rounded-xl overflow-hidden">
+            <video
+              src="/images/agua24demo.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full max-h-[300px] rounded-xl object-contain"
+            />
+            <div className="absolute bottom-4 right-4 space-x-2">
+              <a
+                href="https://github.com/David0414/portalAgua24.git"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 rounded-full bg-white text-black font-semibold shadow hover:bg-black hover:text-white transition"
+              >
+                GitHub
+              </a>
+
+             
+            </div>
+          </div>
+
+          <h2 className="mt-4 text-xl font-semibold text-white">AGUA/24 Maintenance App</h2>
+          <p className="text-white-50">
+            Agua24 is a role-based maintenance portal for purified water machines. Condominiums can review recent maintenance history, technicians can log and update service visits, and administrators can view all system data and machine earnings in one dashboard.
+          </p>
+        </div>
+
+
+
         {/* Proyecto: Hotel San Felipe */}
         <div className="project bg-[#1C1C21] p-5 rounded-xl">
           <div className="image-wrapper relative rounded-xl overflow-hidden">

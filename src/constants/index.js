@@ -205,6 +205,7 @@ const socialImgs = [
     imgPath: "/images/whatsapp.png",
     link: "https://wa.me/524426651403",
   },
+  
 ];
 
 export {

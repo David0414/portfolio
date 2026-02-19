@@ -196,11 +196,6 @@ const socialImgs = [
     link: "https://www.linkedin.com/in/david-mendoza-p%C3%A9rez-933627194/",
   },
   {
-    name: "Portfolio",
-    imgPath: "/images/portfolio.png", // si no existe, reemplázalo por un ícono que sí tengas
-    link: "https://portfolio-eight-delta-2t2y5hrwvd.vercel.app/",
-  },
-  {
     name: "Instagram",
     imgPath: "/images/insta.png",
     link: "https://www.instagram.com/david.merez/",

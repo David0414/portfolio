@@ -161,7 +161,7 @@ const techStackIcons = [
   },
   {
     name: "SQL & Databases",
-    detail: "PostgreSQL · MySQL · MongoDB",
+
     imgPath: "/images/logos/database.svg",
     scale: 1,
     rotation: [0, 0, 0],

@@ -43,7 +43,7 @@ const NavBar = () => {
         </nav>
 
         <a
-          href="https://wa.me/4426651403"
+          href="https://wa.me/4421213600"
           className="contact-btn group"
           target="_blank"
           rel="noopener noreferrer"

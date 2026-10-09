@@ -231,7 +231,7 @@ const socialImgs = [
   {
     name: "WhatsApp",
     imgPath: "/images/whatsapp.png",
-    link: "https://wa.me/524426651403",
+    link: "https://wa.me/524421213600",
   },
   
 ];

@@ -27,6 +27,9 @@ const TechStack = () => {
                 </div>
                 <div className="padding-x w-full">
                   <p>{techStackIcon.name}</p>
+                  {techStackIcon.detail && (
+                    <p className="tech-card-detail">{techStackIcon.detail}</p>
+                  )}
                 </div>
               </div>
             </div>

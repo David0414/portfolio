@@ -145,6 +145,7 @@ const abilities = [
 // (Cambié solo los títulos para alinearlos mejor a tu CV.)
 const techStackImgs = [
   { name: "Backend (Node.js)", imgPath: "/images/logos/node.png" },
+  { name: "SQL & Databases", imgPath: "/images/logos/database.svg" },
   { name: "Python", imgPath: "/images/logos/python.svg" },
   { name: "Project Manager", imgPath: "/images/logos/git.svg" }, // placeholder visual (si luego agregas logo de C#, cámbialo aquí)
   { name: "React / React Native", imgPath: "/images/logos/react.png" },
@@ -157,6 +158,13 @@ const techStackIcons = [
     imgPath: "/images/logos/node.png",
     scale: 5,
     rotation: [0, -Math.PI / 2, 0],
+  },
+  {
+    name: "SQL & Databases",
+    detail: "PostgreSQL · MySQL · MongoDB",
+    imgPath: "/images/logos/database.svg",
+    scale: 1,
+    rotation: [0, 0, 0],
   },
   {
     name: "Python",

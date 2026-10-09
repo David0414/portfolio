@@ -5,7 +5,7 @@ const ThemeToggle = () => {
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
-    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "light" ? "#f3f1ea" : "#08090b");
+    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "light" ? "#e9e7de" : "#08090b");
     try {
       localStorage.setItem("portfolio-theme", theme);
     } catch {

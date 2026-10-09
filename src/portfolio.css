@@ -30,26 +30,28 @@
 :root[data-theme="light"] {
   color-scheme: light;
   --portfolio-accent: #246b53;
-  --portfolio-muted: #596b60;
-  --portfolio-bg: #f3f1ea;
-  --portfolio-surface: #fffdf7;
-  --portfolio-surface-soft: #e7ebe3;
+  --portfolio-muted: #526357;
+  --portfolio-bg: #e9e7de;
+  --portfolio-surface: #fbfaf4;
+  --portfolio-surface-soft: #dee5d7;
+  --portfolio-section: #dce3d6;
+  --portfolio-panel: #f3f1e8;
   --portfolio-text: #233b34;
   --portfolio-heading: #192f29;
-  --portfolio-copy: #4b5e55;
+  --portfolio-copy: #43574d;
   --portfolio-on-accent: #ffffff;
-  --portfolio-border: #cbd3c6;
+  --portfolio-border: #bdc8b7;
   --portfolio-border-strong: #a7b6a6;
   --portfolio-input-border: #71856f;
   --portfolio-border-accent: #246b5380;
-  --portfolio-nav-bg: #f3f1eafa;
-  --portfolio-shadow: 0 10px 30px #334e3b0a;
+  --portfolio-nav-bg: #e9e7de;
+  --portfolio-shadow: 0 8px 24px #243b2c0f;
   --portfolio-stage: radial-gradient(ellipse at 25% 20%, #fff2d6b3, transparent 65%), linear-gradient(135deg, #e9ede0, #d8e5dc);
   --portfolio-stage-grid: #4766550c;
   --portfolio-stage-heading: #4f6659;
   --portfolio-stage-copy: #3e594b;
   --portfolio-contact-stage: #e1e7dc;
-  --color-black-50: #cbd3c6;
+  --color-black-50: #bdc8b7;
 }
 
 html, body { background: var(--portfolio-bg); color: var(--portfolio-text); transition: background-color .35s ease, color .35s ease; }
@@ -196,6 +198,44 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--portfolio-accen
 .footer .socials .icon { background: #111318; border-color: #ffffff24; }
 :root[data-theme="light"] .tech-icon[src$="database.svg"] { filter: brightness(.48) saturate(1.4); }
 
+/* Matte surfaces make each area distinct while keeping the daytime palette. */
+:root[data-theme="light"] .portfolio-stats {
+  padding: 28px 32px;
+  border: 1px solid var(--portfolio-border);
+  border-radius: 20px;
+  background: var(--portfolio-section);
+}
+:root[data-theme="light"] .portfolio-stat + .portfolio-stat {
+  padding-left: 28px;
+  border-left: 1px solid var(--portfolio-border-strong);
+}
+:root[data-theme="light"] .app-showcase.portfolio-work {
+  margin-top: clamp(48px, 5vw, 80px);
+  padding-block: clamp(48px, 5.5vw, 80px);
+  border-block: 1px solid var(--portfolio-border);
+  background: var(--portfolio-section);
+}
+:root[data-theme="light"] .experience-inner,
+:root[data-theme="light"] #skills > div,
+:root[data-theme="light"] #contact > div {
+  padding: clamp(24px, 4vw, 56px);
+  max-width: 1440px;
+  border: 1px solid var(--portfolio-border);
+  border-radius: 24px;
+  background: var(--portfolio-panel);
+}
+:root[data-theme="light"] #skills > div,
+:root[data-theme="light"] #contact > div {
+  background: var(--portfolio-section);
+}
+:root[data-theme="light"] .tech-card-content > div > p:first-child {
+  color: var(--portfolio-heading);
+}
+:root[data-theme="light"] .footer {
+  padding-top: 28px;
+  border-top: 1px solid var(--portfolio-border);
+}
+
 @media (min-width: 1500px) {
   .hero-composition { min-height: 720px; }
 }
@@ -209,6 +249,13 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--portfolio-accen
   .project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 767px) {
+  :root[data-theme="light"] .portfolio-stats { padding: 22px; border-radius: 16px; }
+  :root[data-theme="light"] .portfolio-stats-grid { gap: 18px; }
+  :root[data-theme="light"] .portfolio-stat + .portfolio-stat { padding-left: 0; border-left: 0; }
+  :root[data-theme="light"] .portfolio-stat:nth-child(n + 3) { border-top: 1px solid var(--portfolio-border-strong); padding-top: 18px; }
+  :root[data-theme="light"] .experience-inner,
+  :root[data-theme="light"] #skills > div,
+  :root[data-theme="light"] #contact > div { padding: 22px 18px; border-radius: 18px; }
   [id] { scroll-margin-top: 84px; }
   .portfolio-nav { padding: 14px 20px; }
   .brand-name { display: none; }
@@ -252,6 +299,8 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--portfolio-accen
   .experience-body ul, .experience-reflection { margin-left: 20px; }
   .experience-body li { font-size: 15px; }
   #contact .card-border { padding: 24px; }
+  :root[data-theme="light"] #contact .card-border { padding: 18px; }
+  :root[data-theme="light"] .send-message-button { padding-inline: 12px; gap: 10px; }
 }
 @media (prefers-reduced-motion: reduce) {
   html, body { scroll-behavior: auto; }

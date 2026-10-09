@@ -42,7 +42,7 @@ const HeroStage = () => {
       </SceneBoundary>
       <div className="hero-stage-footer" aria-hidden="true">
         <span><span className="accent-dot" /> Ideas brought to life</span>
-        <span className="desktop-hint">Drag to explore ↗</span>
+        <span className="model-hint">Drag to explore ↗</span>
       </div>
     </div>
   );

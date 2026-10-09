@@ -56,13 +56,14 @@ const HeroExperience = ({ active = true, onReady }) => {
         gl.toneMapping = THREE.ACESFilmicToneMapping;
         gl.toneMappingExposure = 1.12;
       }}
-      style={{ pointerEvents: mobile ? "none" : "auto" }}
+      style={{ pointerEvents: "auto", touchAction: "none" }}
     >
       <ambientLight intensity={0.3} color="#b3c9ef" />
-      <OrbitControls enablePan={false} enableZoom={false} enableRotate={!mobile && active}
+      <OrbitControls enablePan={false} enableZoom={false} enableRotate={active}
+        rotateSpeed={mobile ? 0.65 : 0.5}
         enableDamping={!reduceMotion} dampingFactor={0.08}
         minPolarAngle={Math.PI / 3} maxPolarAngle={Math.PI / 2}
-        minAzimuthAngle={-0.3} maxAzimuthAngle={0.3} target={[0, -1, 0]} />
+        minAzimuthAngle={-0.65} maxAzimuthAngle={0.65} target={[0, -1, 0]} />
       <Suspense fallback={null}>
         <HeroLights />
         {active && animate && !mobile && <Particles count={25} />}

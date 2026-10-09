@@ -117,13 +117,13 @@ const ContactExperience = () => {
     () => ({
       enableZoom: false,
       enablePan: false,
-      enableRotate: !isLowPerformance,
+      enableRotate: true,
       enableDamping: !isLowPerformance,
       dampingFactor: isMobile ? 0.09 : 0.06,
       minPolarAngle: Math.PI / 5,
       maxPolarAngle: Math.PI / 2,
       autoRotate: false,
-      rotateSpeed: isMobile ? 0.28 : 0.45,
+      rotateSpeed: isMobile ? 0.65 : 0.45,
       maxDistance: 15,
       minDistance: 3,
     }),
@@ -161,6 +161,7 @@ const ContactExperience = () => {
           camera={cameraConfig}
           gl={canvasConfig}
           frameloop="demand"
+          style={{ pointerEvents: "auto", touchAction: "none" }}
           performance={{ min: 0.15, max: 1, debounce: 200 }}
           onCreated={(state) => {
             state.gl.setClearColor("#000000", 0);

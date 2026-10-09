@@ -1,5 +1,22 @@
 // constants/index.js
 
+const servinexProject = {
+  name: "Servinex – Plataforma de administración de servicios",
+  description:
+    "Desarrollé una plataforma para administrar el arbitraje de servicios con TypeScript y JavaScript. Centraliza las solicitudes de clientes, la asignación de proveedores y el seguimiento de cada servicio, desde su creación hasta su cierre. Incluye un panel operativo, gestión de equipo, pagos a proveedores y control de precios, costos y márgenes.",
+  technologies: ["TypeScript", "JavaScript"],
+  repositories: [
+    { label: "GitHub Frontend", href: "https://github.com/David0414/servinexFront.git" },
+    { label: "GitHub Backend", href: "https://github.com/David0414/servinexBack.git" },
+  ],
+  images: [
+    { src: "/images/servinex-dashboard.png", alt: "Servinex: resumen operativo y panorama financiero", label: "Resumen operativo" },
+    { src: "/images/servinex-login.png", alt: "Servinex: acceso de administrador y equipo", label: "Acceso del equipo" },
+    { src: "/images/servinex-payments.png", alt: "Servinex: estados y registro de pagos a proveedores", label: "Pagos a proveedores" },
+    { src: "/images/servinex-service.png", alt: "Servinex: detalle de un servicio, proveedor y control comercial", label: "Detalle del servicio" },
+  ],
+};
+
 const navLinks = [
   { name: "Work", link: "#work" },
   { name: "Experience", link: "#experience" },
@@ -209,6 +226,7 @@ const socialImgs = [
 ];
 
 export {
+  servinexProject,
   words,
   abilities,
   logoIconsList,

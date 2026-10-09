@@ -1,22 +1,26 @@
 import { Canvas } from "@react-three/fiber";
 import { AdaptiveDpr, Html, OrbitControls } from "@react-three/drei";
 import { useInView } from "react-intersection-observer";
-import { Suspense, useMemo, useState, useEffect } from "react";
+import { memo, Suspense, useMemo, useState, useEffect } from "react";
 import * as THREE from "three";
 import Computer from "./Computer";
 import useTheme from "../../../hooks/useTheme";
 import SceneAppearance from "../SceneAppearance";
+import usePageVisible from "../../../hooks/usePageVisible";
+import useMediaQuery from "../../../hooks/useMediaQuery";
 
-const ContactExperience = () => {
+const ContactExperience = ({ name, status, typing }) => {
   const daylight = useTheme() === "light";
+  const pageVisible = usePageVisible();
+  const reduceMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
   const [isMobile, setIsMobile] = useState(false);
   const [isLowPerformance, setIsLowPerformance] = useState(false);
 
   const { ref, inView } = useInView({
-    triggerOnce: true,
     threshold: 0.05,
     rootMargin: "50px",
   });
+  const active = inView && pageVisible;
 
   useEffect(() => {
     const checkDevice = () => {
@@ -129,8 +133,8 @@ const ContactExperience = () => {
     () => ({
       enableZoom: false,
       enablePan: false,
-      enableRotate: true,
-      enableDamping: !isLowPerformance,
+      enableRotate: active,
+      enableDamping: !isLowPerformance && !reduceMotion,
       dampingFactor: isMobile ? 0.09 : 0.06,
       minPolarAngle: Math.PI / 5,
       maxPolarAngle: Math.PI / 2,
@@ -139,7 +143,7 @@ const ContactExperience = () => {
       maxDistance: 15,
       minDistance: 3,
     }),
-    [isMobile, isLowPerformance]
+    [isMobile, isLowPerformance, active, reduceMotion]
   );
 
   const modelScale = useMemo(() => {
@@ -165,95 +169,77 @@ const ContactExperience = () => {
   );
 
   return (
-    <div ref={ref} className="w-full h-full relative">
-      {inView && (
-        <Canvas
-          dpr={canvasConfig.dpr}
-          shadows={canvasConfig.shadows}
-          camera={cameraConfig}
-          gl={canvasConfig}
-          frameloop="demand"
-          style={{ pointerEvents: "auto", touchAction: "none" }}
-          performance={{ min: 0.15, max: 1, debounce: 200 }}
-          onCreated={(state) => {
-            state.gl.setClearColor("#000000", 0);
-            state.gl.setPixelRatio(
-              Math.min(window.devicePixelRatio, canvasConfig.dpr[1])
-            );
-            state.gl.outputColorSpace = THREE.SRGBColorSpace;
-            state.gl.toneMapping = THREE.ACESFilmicToneMapping;
-            state.gl.toneMappingExposure = isMobile ? 1.03 : 1.1;
+    <div ref={ref} className="contact-canvas-layout w-full h-full relative">
+      <Canvas
+        dpr={canvasConfig.dpr}
+        shadows={canvasConfig.shadows}
+        camera={cameraConfig}
+        gl={canvasConfig}
+        frameloop={active ? "demand" : "never"}
+        style={{ pointerEvents: "auto", touchAction: "none" }}
+        performance={{ min: 0.15, max: 1, debounce: 200 }}
+        onCreated={(state) => {
+          state.gl.setClearColor("#000000", 0);
+          state.gl.setPixelRatio(
+            Math.min(window.devicePixelRatio, canvasConfig.dpr[1])
+          );
+          state.gl.outputColorSpace = THREE.SRGBColorSpace;
+          state.gl.toneMapping = THREE.ACESFilmicToneMapping;
+          state.gl.toneMappingExposure = isMobile ? 1.03 : 1.1;
 
-            if (isMobile) {
-              state.gl.precision = "mediump";
-            }
-          }}
-        >
-          <AdaptiveDpr pixelated />
-          <color attach="background" args={[daylight ? "#e1e7dc" : "#161b24"]} />
-          <SceneAppearance exposure={daylight ? 0.95 : isMobile ? 1.03 : 1.1} />
-          {daylight && <hemisphereLight args={["#edf6ff", "#a7b698", 0.65]} />}
+          if (isMobile) {
+            state.gl.precision = "mediump";
+          }
+        }}
+      >
+        <AdaptiveDpr pixelated />
+        <color attach="background" args={[daylight ? "#e1e7dc" : "#161b24"]} />
+        <SceneAppearance exposure={daylight ? 0.95 : isMobile ? 1.03 : 1.1} />
+        {daylight && <hemisphereLight args={["#edf6ff", "#a7b698", 0.65]} />}
 
-          <ambientLight
-            intensity={lightConfig.ambient.intensity}
-            color={lightConfig.ambient.color}
+        <ambientLight
+          intensity={lightConfig.ambient.intensity}
+          color={lightConfig.ambient.color}
+        />
+        {lightConfig.directional.map((light, index) => (
+          <directionalLight
+            key={index}
+            position={light.position}
+            intensity={light.intensity}
+            color={light.color}
+            castShadow={false}
           />
-          {lightConfig.directional.map((light, index) => (
-            <directionalLight
-              key={index}
-              position={light.position}
-              intensity={light.intensity}
-              color={light.color}
-              castShadow={false}
-            />
-          ))}
+        ))}
 
-          <OrbitControls {...orbitControlsConfig} />
+        <OrbitControls {...orbitControlsConfig} />
 
-          <group scale={[1, 1, 1]}>
-            <mesh
-              receiveShadow={false}
-              position={[0, -1.5, 0]}
-              rotation={[-Math.PI / 2, 0, 0]}
-              frustumCulled={true}
-            >
-              <planeGeometry args={isMobile ? [20, 20] : [30, 30]} />
-              {daylight
-                ? <meshStandardMaterial color="#b8c6af" roughness={1} metalness={0} fog={false} />
-                : <meshBasicMaterial color="#a46b2d" transparent={false} fog={false} />}
-            </mesh>
+        <group scale={[1, 1, 1]}>
+          <mesh
+            receiveShadow={false}
+            position={[0, -1.5, 0]}
+            rotation={[-Math.PI / 2, 0, 0]}
+            frustumCulled={true}
+          >
+            <planeGeometry args={isMobile ? [20, 20] : [30, 30]} />
+            {daylight
+              ? <meshStandardMaterial color="#b8c6af" roughness={1} metalness={0} fog={false} />
+              : <meshBasicMaterial color="#a46b2d" transparent={false} fog={false} />}
+          </mesh>
+        </group>
+
+        <Suspense fallback={<LoadingFallback />}>
+          <group
+            scale={modelScale}
+            position={[0, -1.49, -2]}
+            castShadow={false}
+            frustumCulled={true}
+          >
+            <Computer name={name} status={status} typing={typing} active={active} reduceMotion={reduceMotion} />
           </group>
-
-          <Suspense fallback={<LoadingFallback />}>
-            <group
-              scale={modelScale}
-              position={[0, -1.49, -2]}
-              castShadow={false}
-              frustumCulled={true}
-            >
-              <Computer />
-            </group>
-          </Suspense>
-        </Canvas>
-      )}
-
-      {!inView && (
-        <div
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            color: "var(--portfolio-copy)",
-            fontSize: "14px",
-            opacity: 0.7,
-          }}
-        >
-          Scroll to load 3D model
-        </div>
-      )}
+        </Suspense>
+      </Canvas>
     </div>
   );
 };
 
-export default ContactExperience;
+export default memo(ContactExperience);

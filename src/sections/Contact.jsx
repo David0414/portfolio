@@ -1,30 +1,51 @@
-import { lazy, Suspense, useRef, useState } from "react";
+import { lazy, Suspense, useDeferredValue, useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import emailjs from "@emailjs/browser";
 
 import TitleHeader from "../components/TitleHeader";
 import SceneBoundary from "../components/SceneBoundary";
+import ContactCompanion from "../components/ContactCompanion";
 
 const ContactExperience = lazy(() => import("../components/models/contact/ContactExperience"));
 
 const Contact = () => {
   const { ref: visualRef, inView: loadVisual } = useInView({ triggerOnce: true, rootMargin: "150px" });
   const formRef = useRef(null);
-  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState("idle");
+  const [typing, setTyping] = useState(false);
+  const [submittedName, setSubmittedName] = useState("");
+  const sendingRef = useRef(false);
+  const typingTimer = useRef(null);
+  const loading = status === "sending";
   const [form, setForm] = useState({
     name: "",
     email: "",
     message: "",
   });
+  const displayName = useDeferredValue(status === "success" ? submittedName : form.name);
+
+  useEffect(() => () => window.clearTimeout(typingTimer.current), []);
 
   const handleChange = (e) => {
+    if (sendingRef.current) return;
     const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
+    setForm((current) => ({ ...current, [name]: value }));
+    setStatus("idle");
+    if (name === "message") {
+      window.clearTimeout(typingTimer.current);
+      setTyping(value.length > 0);
+      typingTimer.current = window.setTimeout(() => setTyping(false), 1100);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Show loading state
+    if (sendingRef.current) return;
+    sendingRef.current = true;
+    window.clearTimeout(typingTimer.current);
+    setTyping(false);
+    setSubmittedName(form.name);
+    setStatus("sending");
 
     try {
       await emailjs.sendForm(
@@ -34,12 +55,12 @@ const Contact = () => {
         import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
       );
 
-      // Reset form and stop loading
       setForm({ name: "", email: "", message: "" });
-    } catch (error) {
-      console.error("EmailJS Error:", error); // Optional: show toast
+      setStatus("success");
+    } catch {
+      setStatus("error");
     } finally {
-      setLoading(false); // Always stop loading, even on error
+      sendingRef.current = false;
     }
   };
 
@@ -52,11 +73,13 @@ const Contact = () => {
         />
         <div className="grid-12-cols mt-16">
           <div className="xl:col-span-5">
-            <div className="flex-center card-border rounded-xl p-10">
+            <div className="contact-form-card card-border rounded-xl p-10">
+              <ContactCompanion name={displayName} status={status} typing={typing} className="contact-form-companion" />
               <form
                 ref={formRef}
                 onSubmit={handleSubmit}
                 className="w-full flex flex-col gap-7"
+                aria-describedby="contact-feedback"
               >
                 <div>
                   <label htmlFor="name">Your name</label>
@@ -68,6 +91,8 @@ const Contact = () => {
                     onChange={handleChange}
                     placeholder="Your name"
                     required
+                    readOnly={loading}
+                    autoComplete="name"
                   />
                 </div>
 
@@ -81,6 +106,8 @@ const Contact = () => {
                     onChange={handleChange}
                     placeholder="you@example.com"
                     required
+                    readOnly={loading}
+                    autoComplete="email"
                   />
                 </div>
 
@@ -94,6 +121,7 @@ const Contact = () => {
                     placeholder="Tell me about your project"
                     rows="5"
                     required
+                    readOnly={loading}
                   />
                 </div>
 
@@ -105,17 +133,24 @@ const Contact = () => {
                     </svg>
                   </span>
                 </button>
+                <p id="contact-feedback" className={`contact-feedback is-${status}`} role="status" aria-live="polite" aria-atomic="true">
+                  {status === "sending" ? "Sending your message…"
+                    : status === "success" ? "Your message was sent. Thanks for reaching out!"
+                    : status === "error" ? "Your message couldn't be sent. Your draft is safe; please try again." : ""}
+                </p>
 
               </form>
             </div>
           </div>
           <div className="xl:col-span-7 min-h-96">
-            <div ref={visualRef} className="contact-visual w-full h-full hover:cursor-grab rounded-3xl overflow-hidden">
+            <div ref={visualRef} className={`contact-visual contact-scene w-full h-full hover:cursor-grab rounded-3xl overflow-hidden is-${status}`}>
+              <ContactCompanion name={displayName} status={status} typing={typing} className="contact-scene-companion" />
               <SceneBoundary>
                 <Suspense fallback={null}>
-                  {loadVisual && <ContactExperience />}
+                  {loadVisual && <ContactExperience name={displayName} status={status} typing={typing} />}
                 </Suspense>
               </SceneBoundary>
+              <span className="contact-model-hint" aria-hidden="true">Drag to explore ↗</span>
             </div>
           </div>
         </div>

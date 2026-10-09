@@ -191,6 +191,35 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--portfolio-accen
 .send-message-button:hover:not(:disabled) svg { transform: translate(2px, -2px); }
 .send-message-button:active:not(:disabled) { transform: translateY(0); }
 .send-message-button:disabled { cursor: wait; opacity: .65; }
+.contact-form-card { position: relative; }
+.contact-scene { position: relative; }
+.contact-companion { display: flex; align-items: center; gap: 14px; padding: 16px; border: 1px solid var(--portfolio-border-strong); border-radius: 16px; background: var(--portfolio-surface); color: var(--portfolio-accent); }
+.contact-form-companion { display: none; }
+.contact-scene-companion { position: absolute; top: 16px; left: 16px; right: 16px; z-index: 3; padding: 12px; pointer-events: none; }
+.contact-scene-companion .contact-avatar { width: 48px; height: 48px; }
+.contact-scene-companion .companion-title { font-size: 18px; }
+.contact-scene-companion .companion-detail { font-size: 13px; }
+.contact-scene .contact-canvas-layout { position: absolute; inset: 116px 0 30px; width: auto; height: auto; }
+.contact-avatar { width: 64px; height: 64px; flex-shrink: 0; }
+.avatar-backdrop { fill: var(--portfolio-surface-soft); }
+.avatar-hand-left, .avatar-hand-right { transform-box: fill-box; transform-origin: center; }
+.is-writing .avatar-hand-left { animation: companion-type .35s ease-in-out infinite alternate; }
+.is-writing .avatar-hand-right { animation: companion-type .35s ease-in-out -.35s infinite alternate-reverse; }
+.companion-copy { min-width: 0; }
+.companion-eyebrow { display: flex; align-items: center; gap: 7px; font-size: 10px; font-weight: 600; letter-spacing: .12em; color: var(--portfolio-muted); }
+.companion-led { width: 5px; height: 5px; border-radius: 50%; background: var(--portfolio-accent); flex-shrink: 0; }
+.companion-title { margin-top: 4px; font-size: 20px; line-height: 1.3; font-weight: 600; color: var(--portfolio-heading); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.companion-detail { margin-top: 5px; font-size: 14px; line-height: 1.5; color: var(--portfolio-copy); }
+.companion-check { margin-left: auto; font-size: 26px; }
+.contact-model-hint { position: absolute; z-index: 3; bottom: 16px; left: 50%; transform: translateX(-50%); padding: 7px 12px; border: 1px solid var(--portfolio-border); border-radius: 999px; background: var(--portfolio-surface); color: var(--portfolio-copy); font-size: 12px; white-space: nowrap; pointer-events: none; }
+.contact-feedback { font-size: 15px; line-height: 1.6; color: var(--portfolio-copy); }
+.contact-feedback:empty { display: none; }
+.contact-feedback.is-success { color: var(--portfolio-accent); }
+.contact-feedback.is-error { color: #f4bb92; }
+:root[data-theme="light"] .contact-feedback.is-error { color: #874329; }
+.contact-scene.is-success::after { content: ''; position: absolute; inset: 1px; border: 2px solid var(--portfolio-accent); border-radius: inherit; opacity: 0; pointer-events: none; animation: companion-sent .85s ease-out; }
+@keyframes companion-type { from { transform: translateY(-1px) rotate(-4deg); } to { transform: translateY(2px) rotate(4deg); } }
+@keyframes companion-sent { 0%, 100% { opacity: 0; } 30% { opacity: 1; } }
 .app-showcase .project, .portfolio-features .card-border, .tech-card, #contact .card-border { box-shadow: var(--portfolio-shadow); transition: background-color .35s, border-color .25s, box-shadow .35s; }
 .experience-entry, .portfolio-stats { transition: border-color .35s; }
 .gradient-edge:nth-of-type(1) { background: linear-gradient(90deg, var(--portfolio-bg), transparent); }
@@ -248,7 +277,23 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--portfolio-accen
   .hero-stage-heading > span:last-child { display: none; }
   .project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+@media (max-width: 1279px) {
+  .contact-form-companion { display: flex; position: sticky; top: 100px; z-index: 8; margin-bottom: 24px; box-shadow: var(--portfolio-shadow); }
+  .contact-scene-companion { padding: 12px; }
+  .contact-scene-companion .contact-avatar { width: 48px; height: 48px; }
+  .contact-scene-companion .companion-detail { display: none; }
+  .contact-scene .contact-canvas-layout { top: 100px; }
+}
 @media (max-width: 767px) {
+  .contact-form-companion { top: 82px; gap: 10px; padding: 12px; margin-bottom: 22px; }
+  .contact-form-companion .contact-avatar { width: 42px; height: 42px; }
+  .contact-form-companion .companion-title { font-size: 17px; }
+  .contact-form-companion .companion-detail { font-size: 13px; }
+  .contact-form-companion .companion-eyebrow { font-size: 9px; }
+  .contact-form-card input, .contact-form-card textarea { scroll-margin-top: 220px; }
+  .contact-scene-companion { top: 12px; left: 12px; right: 12px; gap: 10px; }
+  .contact-scene-companion .companion-title { font-size: 16px; }
+  .contact-scene .contact-canvas-layout { top: 96px; }
   :root[data-theme="light"] .portfolio-stats { padding: 22px; border-radius: 16px; }
   :root[data-theme="light"] .portfolio-stats-grid { gap: 18px; }
   :root[data-theme="light"] .portfolio-stat + .portfolio-stat { padding-left: 0; border-left: 0; }

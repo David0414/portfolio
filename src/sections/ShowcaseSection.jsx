@@ -3,6 +3,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { servinexProject } from "../constants";
+import ProjectCarousel from "../components/ProjectCarousel";
 import "../../src/hover-effecyts.css"; // Asegúrate de importar el archivo CSS aquí.
 
 gsap.registerPlugin(ScrollTrigger);
@@ -48,78 +49,39 @@ const AppShowcase = () => {
   return (
 
     <div id="work" ref={sectionRef} className="app-showcase px-5 md:px-20 py-20">
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 items-start w-full">
 
         {/* Proyecto: Servinex */}
         <div className="project bg-[#1C1C21] p-5 rounded-xl">
-          <a
-            href={servinexProject.images[0].src}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Abrir captura del resumen operativo de Servinex"
-            className="block rounded-xl overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
-          >
-            <img
-              src={servinexProject.images[0].src}
-              alt={servinexProject.images[0].alt}
-              loading="lazy"
-              className="w-full rounded-xl object-contain"
-            />
-          </a>
-          <div className="mt-3 grid grid-cols-3 gap-3">
-            {servinexProject.images.slice(1).map((image) => (
-              <a
-                key={image.src}
-                href={image.src}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`Abrir captura: ${image.label}`}
-                className="rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
-              >
-                <img
-                  src={image.src}
-                  alt={image.alt}
-                  loading="lazy"
-                  className="w-full aspect-video rounded-lg object-contain bg-[#0b2b4b]"
-                />
-                <span className="mt-1 block text-xs text-white-50">{image.label}</span>
-              </a>
-            ))}
-          </div>
+          <ProjectCarousel images={servinexProject.images}>
+            <div className="absolute bottom-4 left-4 right-4 flex flex-wrap justify-end gap-2">
+              {servinexProject.repositories.map((repository) => (
+                <a
+                  key={repository.href}
+                  href={repository.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 rounded-full bg-white text-black font-semibold shadow hover:bg-black hover:text-white transition"
+                >
+                  {repository.label}
+                </a>
+              ))}
+            </div>
+          </ProjectCarousel>
           <h2 className="mt-4 text-xl font-semibold text-white">{servinexProject.name}</h2>
-          <p className="mt-2 text-white-50">{servinexProject.description}</p>
-          <ul className="mt-3 flex flex-wrap gap-2" aria-label="Tecnologías de Servinex">
-            {servinexProject.technologies.map((technology) => (
-              <li key={technology} className="px-3 py-1 rounded-full bg-black text-sm text-white-50">
-                {technology}
-              </li>
-            ))}
-          </ul>
-          <div className="mt-4 flex flex-wrap gap-2">
-            {servinexProject.repositories.map((repository) => (
-              <a
-                key={repository.href}
-                href={repository.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-2 rounded-full bg-white text-black font-semibold shadow hover:bg-black hover:text-white transition focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
-              >
-                {repository.label}
-              </a>
-            ))}
-          </div>
+          <p className="text-white-50">{servinexProject.description}</p>
         </div>
 
         {/* Proyecto: Agua24 PORTAL con video */}
         <div className="project bg-[#1C1C21] p-5 rounded-xl">
-          <div className="image-wrapper relative rounded-xl overflow-hidden">
+          <div className="image-wrapper project-media relative rounded-xl overflow-hidden">
             <video
               src="/images/agua24demo.mp4"
               autoPlay
               loop
               muted
               playsInline
-              className="w-full max-h-[300px] rounded-xl object-contain"
+              className="w-full h-full rounded-xl object-contain"
             />
             <div className="absolute bottom-4 right-4 space-x-2">
               <a
@@ -145,8 +107,8 @@ const AppShowcase = () => {
 
         {/* Proyecto: Hotel San Felipe */}
         <div className="project bg-[#1C1C21] p-5 rounded-xl">
-          <div className="image-wrapper relative rounded-xl overflow-hidden">
-            <img src="/images/project1.webp" alt="Hotel" className="w-full rounded-xl object-cover" />
+          <div className="image-wrapper project-media relative rounded-xl overflow-hidden">
+            <img src="/images/project1.webp" alt="Hotel" className="w-full h-full rounded-xl object-cover" />
             <div className="absolute bottom-4 right-4 space-x-2">
               <a href="https://github.com/David0414/HotelSanFe" target="_blank" rel="noopener noreferrer"
                 className="px-4 py-2 rounded-full bg-white text-black font-semibold shadow hover:bg-black hover:text-white transition">
@@ -164,8 +126,8 @@ const AppShowcase = () => {
 
         {/* Proyecto: Expense Tracker */}
         <div className="project bg-[#1C1C21] p-5 rounded-xl">
-          <div className="image-wrapper relative rounded-xl overflow-hidden">
-            <img src="/images/project2.webp" alt="Expense Tracker" className="w-full rounded-xl object-cover" />
+          <div className="image-wrapper project-media relative rounded-xl overflow-hidden">
+            <img src="/images/project2.webp" alt="Expense Tracker" className="w-full h-full rounded-xl object-cover" />
             <div className="absolute bottom-4 right-4 space-x-2">
               <a href="https://github.com/David0414/expenseTrackerBack" target="_blank" rel="noopener noreferrer"
                 className="px-4 py-2 rounded-full bg-white text-black font-semibold shadow hover:bg-black hover:text-white transition">
@@ -183,8 +145,8 @@ const AppShowcase = () => {
 
         {/* Proyecto: Employee Management */}
         <div className="project bg-[#1C1C21] p-5 rounded-xl">
-          <div className="image-wrapper relative rounded-xl overflow-hidden">
-            <img src="/images/project3.webp" alt="Employee CRUD" className="w-full rounded-xl object-cover" />
+          <div className="image-wrapper project-media relative rounded-xl overflow-hidden">
+            <img src="/images/project3.webp" alt="Employee CRUD" className="w-full h-full rounded-xl object-cover" />
             <div className="absolute bottom-4 right-4 space-x-2">
               <a href="https://github.com/David0414/ProyectoFinalBackend.git" target="_blank" rel="noopener noreferrer"
                 className="px-4 py-2 rounded-full bg-white text-black font-semibold shadow hover:bg-black hover:text-white transition">
@@ -202,14 +164,14 @@ const AppShowcase = () => {
 
         {/* Proyecto: FinLink con video ajustado */}
         <div className="project bg-[#1C1C21] p-5 rounded-xl">
-          <div className="image-wrapper relative rounded-xl overflow-hidden">
+          <div className="image-wrapper project-media relative rounded-xl overflow-hidden">
             <video
               src="/images/finlink-demo.mp4"
               autoPlay
               loop
               muted
               playsInline
-              className="w-full max-h-[300px] rounded-xl object-contain"
+              className="w-full h-full rounded-xl object-contain"
             />
             <div className="absolute bottom-4 right-4">
               <a
@@ -234,8 +196,8 @@ const AppShowcase = () => {
 
         {/* Proyecto SRI */}
         <div className="project bg-[#1C1C21] p-5 rounded-xl">
-          <div className="image-wrapper relative rounded-xl overflow-hidden">
-            <img src="/images/project4.webp" alt="Employee CRUD" className="w-full rounded-xl object-cover" />
+          <div className="image-wrapper project-media relative rounded-xl overflow-hidden">
+            <img src="/images/project4.webp" alt="Employee CRUD" className="w-full h-full rounded-xl object-cover" />
             <div className="absolute bottom-4 right-4 space-x-2">
               <a href="https://github.com/David0414/SRIFrontend.git" target="_blank" rel="noopener noreferrer"
                 className="px-4 py-2 rounded-full bg-white text-black font-semibold shadow hover:bg-black hover:text-white transition">
@@ -256,7 +218,7 @@ const AppShowcase = () => {
 
         {/* Proyecto: AquaQR / One Water (REEMPLAZA al servidor encriptado) */}
         <div className="project bg-[#1C1C21] p-5 rounded-xl">
-          <div className="image-wrapper relative rounded-xl overflow-hidden">
+          <div className="image-wrapper project-media relative rounded-xl overflow-hidden">
             {/* Video como FinLink */}
             <video
               src="/images/aquaqr-demo.mp4"
@@ -264,7 +226,7 @@ const AppShowcase = () => {
               loop
               muted
               playsInline
-              className="w-full max-h-[300px] rounded-xl object-contain"
+              className="w-full h-full rounded-xl object-contain"
             />
 
             {/* Botones GitHub / Live / Demo */}

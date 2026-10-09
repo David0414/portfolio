@@ -4,7 +4,6 @@ const servinexProject = {
   name: "Servinex – Plataforma de administración de servicios",
   description:
     "Desarrollé una plataforma para administrar el arbitraje de servicios con TypeScript y JavaScript. Centraliza las solicitudes de clientes, la asignación de proveedores y el seguimiento de cada servicio, desde su creación hasta su cierre. Incluye un panel operativo, gestión de equipo, pagos a proveedores y control de precios, costos y márgenes.",
-  technologies: ["TypeScript", "JavaScript"],
   repositories: [
     { label: "GitHub Frontend", href: "https://github.com/David0414/servinexFront.git" },
     { label: "GitHub Backend", href: "https://github.com/David0414/servinexBack.git" },

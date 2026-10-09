@@ -3,7 +3,7 @@
 const servinexProject = {
   name: "Servinex – Plataforma de administración de servicios",
   description:
-    "Desarrollé una plataforma para administrar el arbitraje de servicios con TypeScript y JavaScript. Centraliza las solicitudes de clientes, la asignación de proveedores y el seguimiento de cada servicio, desde su creación hasta su cierre. Incluye un panel operativo, gestión de equipo, pagos a proveedores y control de precios, costos y márgenes.",
+    "Plataforma en TypeScript y JavaScript que conecta solicitudes, proveedores y equipo en una sola operación. Gestiona cada servicio de principio a fin, con seguimiento, pagos y control de costos y márgenes.",
   repositories: [
     { label: "GitHub Frontend", href: "https://github.com/David0414/servinexFront.git" },
     { label: "GitHub Backend", href: "https://github.com/David0414/servinexBack.git" },
@@ -19,14 +19,51 @@ const servinexProject = {
 const servinexLandingProject = {
   name: "Servinex – Landing Page, SEO y optimización web",
   description:
-    "Desarrollé la landing page comercial de Servinex con enfoque en SEO, optimización web y diseño responsivo. Presenta los servicios de la empresa y facilita las solicitudes de cotización con llamadas a la acción, contacto directo y WhatsApp, para mejorar la visibilidad en buscadores y la experiencia de navegación.",
+    "Landing page comercial con enfoque en SEO, optimización web y diseño responsivo. Presenta los servicios de Servinex y facilita las cotizaciones con llamadas a la acción, contacto directo y WhatsApp.",
   image: {
-    src: "/images/servinex-landing.png",
+    src: "/images/servinex-landing.webp",
     alt: "Landing page de Servinex con sus servicios para hogares y negocios y opciones de cotización",
   },
   github: "https://github.com/David0414/servinex.git",
   live: "https://servinex-oficial.netlify.app/",
 };
+
+const portfolioProjects = [
+  { id: "servinex-ops", category: "Operations platform", title: servinexProject.name,
+    description: servinexProject.description, images: servinexProject.images,
+    links: servinexProject.repositories },
+  { id: "servinex-web", category: "Web design & SEO", title: servinexLandingProject.name,
+    description: servinexLandingProject.description, image: servinexLandingProject.image,
+    links: [{ label: "GitHub", href: servinexLandingProject.github }, { label: "Live", href: servinexLandingProject.live }] },
+  { id: "agua24", category: "Maintenance & operations", title: "AGUA/24 Maintenance App",
+    description: "A role-based portal for water machine maintenance. Connects condominium owners, technicians and administrators through service records, maintenance history and machine earnings.",
+    video: "/images/agua24-preview.mp4", poster: "/images/agua24-poster.webp",
+    links: [{ label: "GitHub", href: "https://github.com/David0414/portalAgua24.git" }] },
+  { id: "aquaqr", category: "IoT & payments", title: "AquaQR (One Water) – Water Vending Platform",
+    description: "A QR-based water dispensing ecosystem connecting telemetry dashboards, user wallets, payments and secure machine verification.",
+    video: "/images/aquaqr-preview.mp4", poster: "/images/aquaqr-poster.webp",
+    links: [{ label: "Live", href: "https://aquaqr-front.vercel.app/" }, { label: "Demo", href: "/images/aquaqr-preview.mp4" }] },
+  { id: "hotel", category: "Booking & hospitality", title: "Hotel San Felipe – Booking System",
+    description: "A hotel reservation website with an administration dashboard for bookings, rooms and customer data.",
+    image: { src: "/images/project1.webp", alt: "Hotel San Felipe reservation website" },
+    links: [{ label: "GitHub", href: "https://github.com/David0414/HotelSanFe" }, { label: "Live", href: "https://front-hotel-six.vercel.app/" }] },
+  { id: "expenses", category: "Personal finance", title: "Expense Tracker – MERN",
+    description: "A responsive expense tracker built with MongoDB, Express, React and Node.js to organize personal finances.",
+    image: { src: "/images/project2.webp", alt: "Expense Tracker financial dashboard" },
+    links: [{ label: "GitHub", href: "https://github.com/David0414/expenseTrackerBack" }, { label: "Live", href: "https://expesne-traacker-front.vercel.app/login" }] },
+  { id: "employees", category: "Backend & authentication", title: "Employee Management System",
+    description: "An employee management API with Express, JWT authentication and protected administrator operations.",
+    image: { src: "/images/project3.webp", alt: "Employee management application" },
+    links: [{ label: "GitHub", href: "https://github.com/David0414/ProyectoFinalBackend.git" }, { label: "Live", href: "https://proyectofinalbackend-production-e38f.up.railway.app/" }] },
+  { id: "finlink", category: "Mobile & fintech", title: "FinLink – FinTech App Clone",
+    description: "A React Native fintech clone with Clerk OTP login, cryptocurrency data and native interactions using Zustand and Reanimated.",
+    video: "/images/finlink-preview.mp4", poster: "/images/finlink-poster.webp",
+    links: [{ label: "GitHub", href: "https://github.com/David0414/FinLink" }] },
+  { id: "sri", category: "Routing & algorithms", title: "Sistema de rutas inteligentes",
+    description: "Route optimization for emergencies and natural disasters, using Dijkstra’s algorithm and AI to identify suitable routes.",
+    image: { src: "/images/project4.webp", alt: "Intelligent routing application" },
+    links: [{ label: "GitHub", href: "https://github.com/David0414/SRIFrontend.git" }, { label: "Live", href: "https://sri-frontend.vercel.app/" }] },
+];
 
 const navLinks = [
   { name: "Work", link: "#work" },
@@ -237,6 +274,7 @@ const socialImgs = [
 ];
 
 export {
+  portfolioProjects,
   servinexProject,
   servinexLandingProject,
   words,

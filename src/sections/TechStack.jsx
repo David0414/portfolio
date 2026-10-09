@@ -2,18 +2,16 @@ import TitleHeader from "../components/TitleHeader";
 import { techStackIcons } from "../constants";
 
 const TechStack = () => {
-  const isMobile = window.innerWidth < 768;
-  const iconsToRender = isMobile ? techStackIcons.slice(0, 8) : techStackIcons;
 
   return (
     <div id="skills" className="flex-center section-padding">
       <div className="w-full h-full md:px-10 px-5">
         <TitleHeader
-          title="How I Can Contribute & My Key Skills"
-          sub="🤝 What I Bring to the Table"
+          title="The tools behind the ideas."
+          sub="SKILLS / 04"
         />
         <div className="tech-grid">
-          {iconsToRender.map((techStackIcon) => (
+          {techStackIcons.map((techStackIcon) => (
             <div
               key={techStackIcon.name}
               className="card-border tech-card overflow-hidden group xl:rounded-full rounded-lg transition-transform duration-300 ease-in-out hover:scale-105"

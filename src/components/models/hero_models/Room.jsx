@@ -177,5 +177,3 @@ export function Room(props) {
     </group>
   );
 }
-
-useGLTF.preload("/models/optimized-room.glb");

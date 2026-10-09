@@ -1,204 +1,76 @@
-import { AdaptiveDpr, AdaptiveEvents, OrbitControls } from "@react-three/drei";
-import { Canvas } from "@react-three/fiber";
+import { OrbitControls, PerformanceMonitor } from "@react-three/drei";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Suspense, useEffect, useRef, useState } from "react";
 import * as THREE from "three";
-import { Suspense, useMemo, useState, useEffect } from "react";
-
+import useMediaQuery from "../../../hooks/useMediaQuery";
 import { Room } from "./Room";
 import HeroLights from "./HeroLights";
 import Particles from "./Particles";
 
-const HeroExperience = () => {
-  const [isMobile, setIsMobile] = useState(false);
-  const [isTablet, setIsTablet] = useState(false);
-  const [isLowPerformance, setIsLowPerformance] = useState(false);
+const Workspace = ({ mobile, animate, onReady }) => {
+  const workspace = useRef();
+  const elapsed = useRef(0);
+  const announced = useRef(false);
 
   useEffect(() => {
-    const checkDevice = () => {
-      const mobile = window.innerWidth < 768;
-      const tablet = window.innerWidth < 1024;
-      const hardwareConcurrency = navigator.hardwareConcurrency ?? 8;
-      const deviceMemory = navigator.deviceMemory ?? 8;
-      setIsMobile(mobile);
-      setIsTablet(tablet);
+    if (!animate && workspace.current) workspace.current.rotation.y = -Math.PI / 4;
+  }, [animate]);
 
-      // Detectar dispositivos de muy bajo rendimiento
-      const isAndroid = /Android/i.test(navigator.userAgent);
-      const isLowEnd =
-        mobile &&
-        isAndroid &&
-        (hardwareConcurrency < 4 ||
-          deviceMemory < 4 ||
-          /Android.*[4-6]\./.test(navigator.userAgent));
-      setIsLowPerformance(isLowEnd);
-    };
-
-    checkDevice();
-    window.addEventListener("resize", checkDevice);
-    return () => window.removeEventListener("resize", checkDevice);
-  }, []);
-
-  // Configuración adaptativa de Canvas orientada a mejor calidad móvil sin perder fluidez
-  const canvasConfig = useMemo(() => {
-    if (isLowPerformance) {
-      return {
-        dpr: [0.85, 1.15],
-        shadows: false,
-        antialias: false,
-        alpha: false,
-        powerPreference: "default",
-        failIfMajorPerformanceCaveat: false,
-        stencil: false,
-        depth: true,
-        premultipliedAlpha: false,
-        preserveDrawingBuffer: false,
-        logarithmicDepthBuffer: false,
-        precision: "mediump",
-      };
+  useFrame((_, delta) => {
+    if (!announced.current) {
+      announced.current = true;
+      requestAnimationFrame(onReady);
     }
+    if (!animate) return;
+    elapsed.current += Math.min(delta, 0.05);
+    workspace.current.rotation.y = -Math.PI / 4 + Math.sin(elapsed.current * 0.3) * 0.08;
+  });
 
-    if (isMobile) {
-      return {
-        dpr: [0.9, 1.3],
-        shadows: false,
-        antialias: false,
-        alpha: false,
-        powerPreference: "default",
-        failIfMajorPerformanceCaveat: false,
-        stencil: false,
-        depth: true,
-        premultipliedAlpha: false,
-        preserveDrawingBuffer: false,
-        precision: "highp",
-      };
-    }
-
-    return {
-      dpr: [1, 1.5],
-      shadows: false,
-      antialias: true,
-      alpha: false,
-      powerPreference: "high-performance",
-      failIfMajorPerformanceCaveat: false,
-      stencil: false,
-      depth: true,
-      precision: "highp",
-    };
-  }, [isMobile, isLowPerformance]);
-
-  // Configuración de cámara adaptativa
-  const cameraConfig = useMemo(
-    () => ({
-      position: isMobile ? [0, 0.4, 12.5] : [0, 0, 15],
-      fov: isMobile ? 52 : 45,
-      near: 0.1,
-      far: 55,
-    }),
-    [isMobile]
+  return (
+    <group ref={workspace} scale={mobile ? 0.88 : 1}
+      position={[0, mobile ? -2.6 : -3.1, 0]} rotation={[0, -Math.PI / 4, 0]}>
+      <Room />
+    </group>
   );
+};
 
-  // Configuración de controles adaptativa para navegación más suave
-  const controlsConfig = useMemo(
-    () => ({
-      enablePan: false,
-      enableZoom: !isTablet,
-      enableRotate: !isLowPerformance && !isMobile,
-      enableDamping: !isLowPerformance,
-      dampingFactor: isMobile ? 0.08 : 0.06,
-      maxDistance: isMobile ? 16 : 20,
-      minDistance: isMobile ? 8 : 5,
-      minPolarAngle: Math.PI / 5,
-      maxPolarAngle: Math.PI / 2,
-      autoRotate: isMobile,
-      autoRotateSpeed: isLowPerformance ? 1.5 : 0.35,
-      rotateSpeed: isMobile ? 0.3 : 0.55,
-      target: [0, -1, 0],
-    }),
-    [isMobile, isTablet, isLowPerformance]
+const HeroExperience = ({ active = true, onReady }) => {
+  const mobile = useMediaQuery("(max-width: 767px)");
+  const reduceMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
+  const [quality, setQuality] = useState(() =>
+    (navigator.deviceMemory ?? 8) < 4 || (navigator.hardwareConcurrency ?? 8) < 4 ? "low" : "normal"
   );
-
-  // Configuración de partículas adaptativa
-  const particleCount = useMemo(() => {
-    if (isLowPerformance) return 0;
-    if (isMobile) return 18;
-    return 50;
-  }, [isMobile, isLowPerformance]);
-
-  // Configuración de escala y posición
-  const roomTransform = useMemo(
-    () => ({
-      scale: isLowPerformance ? 0.72 : isMobile ? 0.84 : 1,
-      position: [0, isMobile ? -2.9 : -3.5, 0],
-      rotation: [0, -Math.PI / 4, 0],
-    }),
-    [isMobile, isLowPerformance]
-  );
-
-  // Componente de Room memoizado
-  const MemoizedRoom = useMemo(() => <Room />, []);
-
-  // Componente de carga personalizado
-  const LoadingFallback = () => (
-    <mesh>
-      <boxGeometry args={[2, 2, 2]} />
-      <meshBasicMaterial color="#4cc9f0" transparent opacity={0.6} />
-    </mesh>
-  );
+  const animate = !reduceMotion && quality !== "low";
+  const dpr = quality === "low" ? 0.85 : mobile ? 1.15 : 1.5;
 
   return (
     <Canvas
-      camera={cameraConfig}
-      dpr={canvasConfig.dpr}
-      gl={canvasConfig}
-      shadows={canvasConfig.shadows}
-      frameloop="always"
-      performance={{ min: 0.45, max: 1, debounce: 120 }}
-      onCreated={(state) => {
-        // Optimizaciones adicionales
-        state.gl.setClearColor("#000000", 1);
-        state.gl.setPixelRatio(
-          Math.min(window.devicePixelRatio, canvasConfig.dpr[1])
-        );
-        state.gl.outputColorSpace = THREE.SRGBColorSpace;
-        state.gl.toneMapping = THREE.ACESFilmicToneMapping;
-        state.gl.toneMappingExposure = isMobile ? 1.05 : 1.12;
-
-        // Configurar precisión para móviles
-        if (isMobile) {
-          state.gl.precision = canvasConfig.precision;
-        }
-
-        // Configurar frustum culling más agresivo
-        state.camera.far = 55;
-        state.camera.updateProjectionMatrix();
+      camera={{ position: [0, 0.4, mobile ? 12 : 13.5], fov: 45, near: 0.1, far: 55 }}
+      dpr={dpr}
+      gl={{ alpha: true, antialias: true, powerPreference: "default", stencil: false }}
+      frameloop={!active ? "never" : animate ? "always" : "demand"}
+      fallback={<span className="sr-only">A preview of the workspace is shown.</span>}
+      onCreated={({ gl }) => {
+        gl.setClearColor("#000000", 0);
+        gl.outputColorSpace = THREE.SRGBColorSpace;
+        gl.toneMapping = THREE.ACESFilmicToneMapping;
+        gl.toneMappingExposure = 1.12;
       }}
+      style={{ pointerEvents: mobile ? "none" : "auto" }}
     >
-      <AdaptiveEvents />
-      <AdaptiveDpr />
-
-      {/* Luz ambiental simplificada */}
-      <ambientLight
-        intensity={isLowPerformance ? 0.34 : isMobile ? 0.3 : 0.28}
-        color={isLowPerformance ? "#f6f7ff" : "#1a1a40"}
-      />
-
-      {/* Controles optimizados */}
-      <OrbitControls {...controlsConfig} />
-
-      <Suspense fallback={<LoadingFallback />}>
+      <ambientLight intensity={0.3} color="#b3c9ef" />
+      <OrbitControls enablePan={false} enableZoom={false} enableRotate={!mobile && active}
+        enableDamping={!reduceMotion} dampingFactor={0.08}
+        minPolarAngle={Math.PI / 3} maxPolarAngle={Math.PI / 2}
+        minAzimuthAngle={-0.3} maxAzimuthAngle={0.3} target={[0, -1, 0]} />
+      <Suspense fallback={null}>
         <HeroLights />
-
-        {/* Partículas - adaptativas */}
-        {particleCount > 0 && <Particles count={particleCount} />}
-
-        {/* Modelo principal */}
-        <group
-          scale={roomTransform.scale}
-          position={roomTransform.position}
-          rotation={roomTransform.rotation}
-          frustumCulled={true}
-        >
-          {MemoizedRoom}
-        </group>
+        {active && animate && !mobile && <Particles count={25} />}
+        <Workspace mobile={mobile} animate={animate && active} onReady={onReady} />
+        {active && animate && (
+          <PerformanceMonitor iterations={5} bounds={() => [28, 55]}
+            onDecline={() => setQuality("low")} />
+        )}
       </Suspense>
     </Canvas>
   );

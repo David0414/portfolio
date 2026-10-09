@@ -15,6 +15,7 @@ const ProjectCarousel = ({ images, children }) => {
       aria-roledescription="carrusel"
       aria-label="Capturas de Servinex"
       tabIndex={0}
+      style={{ touchAction: "pan-y" }}
       onKeyDown={(event) => {
         if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
           event.preventDefault();

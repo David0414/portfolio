@@ -1,10 +1,14 @@
-import { useRef, useState } from "react";
+import { lazy, Suspense, useRef, useState } from "react";
+import { useInView } from "react-intersection-observer";
 import emailjs from "@emailjs/browser";
 
 import TitleHeader from "../components/TitleHeader";
-import ContactExperience from "../components/models/contact/ContactExperience";
+import SceneBoundary from "../components/SceneBoundary";
+
+const ContactExperience = lazy(() => import("../components/models/contact/ContactExperience"));
 
 const Contact = () => {
+  const { ref: visualRef, inView: loadVisual } = useInView({ triggerOnce: true, rootMargin: "150px" });
   const formRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
@@ -43,8 +47,8 @@ const Contact = () => {
     <section id="contact" className="flex-center section-padding">
       <div className="w-full h-full md:px-10 px-5">
         <TitleHeader
-          title="Get in Touch – Let’s Connect"
-          sub="💬 Have questions or ideas? Let’s talk! 🚀"
+          title="Let’s build something good."
+          sub="GET IN TOUCH / 05"
         />
         <div className="grid-12-cols mt-16">
           <div className="xl:col-span-5">
@@ -62,7 +66,7 @@ const Contact = () => {
                     name="name"
                     value={form.name}
                     onChange={handleChange}
-                    placeholder="What’s your good name?"
+                    placeholder="Your name"
                     required
                   />
                 </div>
@@ -75,7 +79,7 @@ const Contact = () => {
                     name="email"
                     value={form.email}
                     onChange={handleChange}
-                    placeholder="What’s your email address?"
+                    placeholder="you@example.com"
                     required
                   />
                 </div>
@@ -87,7 +91,7 @@ const Contact = () => {
                     name="message"
                     value={form.message}
                     onChange={handleChange}
-                    placeholder="How can I help you?"
+                    placeholder="Tell me about your project"
                     rows="5"
                     required
                   />
@@ -117,8 +121,12 @@ const Contact = () => {
             </div>
           </div>
           <div className="xl:col-span-7 min-h-96">
-            <div className="bg-[#cd7c2e] w-full h-full hover:cursor-grab rounded-3xl overflow-hidden">
-              <ContactExperience />
+            <div ref={visualRef} className="contact-visual w-full h-full hover:cursor-grab rounded-3xl overflow-hidden">
+              <SceneBoundary>
+                <Suspense fallback={null}>
+                  {loadVisual && <ContactExperience />}
+                </Suspense>
+              </SceneBoundary>
             </div>
           </div>
         </div>

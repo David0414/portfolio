@@ -1,16 +1,8 @@
-const TitleHeader = ({ title, sub }) => {
-  return (
-    <div className="flex flex-col items-center gap-5">
-      <div className="hero-badge">
-        <p>{sub}</p>
-      </div>
-      <div>
-        <h1 className="font-semibold md:text-5xl text-3xl text-center">
-          {title}
-        </h1>
-      </div>
-    </div>
-  );
-};
+const TitleHeader = ({ title, sub }) => (
+  <div className="section-title">
+    <p className="section-eyebrow">{sub}</p>
+    <h2>{title}</h2>
+  </div>
+);
 
 export default TitleHeader;

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { navLinks, socialImgs } from "../constants";
 import useMediaQuery from "../hooks/useMediaQuery";
+import ThemeToggle from "./ThemeToggle";
 
 const NavBar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -51,6 +52,7 @@ const NavBar = () => {
           </nav>
         )}
         <div className="nav-actions">
+          <ThemeToggle />
           <a className="nav-contact" href={socialImgs.find((social) => social.name === "WhatsApp")?.link}
             target="_blank" rel="noopener noreferrer">Let’s talk <span aria-hidden="true">↗</span></a>
           {!desktop && (

@@ -5,8 +5,8 @@ const servinexProject = {
   description:
     "Plataforma en TypeScript y JavaScript que conecta solicitudes, proveedores y equipo en una sola operación. Gestiona cada servicio de principio a fin, con seguimiento, pagos y control de costos y márgenes.",
   repositories: [
-    { label: "GitHub Frontend", href: "https://github.com/David0414/servinexFront.git" },
-    { label: "GitHub Backend", href: "https://github.com/David0414/servinexBack.git" },
+    { label: "GitHub Front", href: "https://github.com/David0414/servinexFront.git" },
+    { label: "GitHub Back", href: "https://github.com/David0414/servinexBack.git" },
   ],
   images: [
     { src: "/images/servinex-dashboard.png", alt: "Servinex: resumen operativo y panorama financiero", label: "Resumen operativo" },

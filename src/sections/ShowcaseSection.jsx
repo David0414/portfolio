@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { servinexProject } from "../constants";
+import { servinexProject, servinexLandingProject } from "../constants";
 import ProjectCarousel from "../components/ProjectCarousel";
 import "../../src/hover-effecyts.css"; // Asegúrate de importar el archivo CSS aquí.
 
@@ -70,6 +70,40 @@ const AppShowcase = () => {
           </ProjectCarousel>
           <h2 className="mt-4 text-xl font-semibold text-white">{servinexProject.name}</h2>
           <p className="text-white-50">{servinexProject.description}</p>
+        </div>
+
+        {/* Proyecto: Servinex Landing Page */}
+        <div className="project bg-[#1C1C21] p-5 rounded-xl">
+          <div className="image-wrapper project-media relative rounded-xl overflow-hidden">
+            <img
+              src={servinexLandingProject.image.src}
+              alt={servinexLandingProject.image.alt}
+              loading="lazy"
+              width={1440}
+              height={810}
+              className="w-full h-full rounded-xl object-cover"
+            />
+            <div className="absolute bottom-4 right-4 flex gap-2">
+              <a
+                href={servinexLandingProject.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 rounded-full bg-white text-black font-semibold shadow hover:bg-black hover:text-white transition"
+              >
+                GitHub
+              </a>
+              <a
+                href={servinexLandingProject.live}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 rounded-full bg-black text-white font-semibold shadow hover:bg-white hover:text-black transition"
+              >
+                Live
+              </a>
+            </div>
+          </div>
+          <h2 className="mt-4 text-xl font-semibold text-white">{servinexLandingProject.name}</h2>
+          <p className="text-white-50">{servinexLandingProject.description}</p>
         </div>
 
         {/* Proyecto: Agua24 PORTAL con video */}

@@ -16,6 +16,18 @@ const servinexProject = {
   ],
 };
 
+const servinexLandingProject = {
+  name: "Servinex – Landing Page, SEO y optimización web",
+  description:
+    "Desarrollé la landing page comercial de Servinex con enfoque en SEO, optimización web y diseño responsivo. Presenta los servicios de la empresa y facilita las solicitudes de cotización con llamadas a la acción, contacto directo y WhatsApp, para mejorar la visibilidad en buscadores y la experiencia de navegación.",
+  image: {
+    src: "/images/servinex-landing.png",
+    alt: "Landing page de Servinex con sus servicios para hogares y negocios y opciones de cotización",
+  },
+  github: "https://github.com/David0414/servinex.git",
+  live: "https://servinex-oficial.netlify.app/",
+};
+
 const navLinks = [
   { name: "Work", link: "#work" },
   { name: "Experience", link: "#experience" },
@@ -226,6 +238,7 @@ const socialImgs = [
 
 export {
   servinexProject,
+  servinexLandingProject,
   words,
   abilities,
   logoIconsList,

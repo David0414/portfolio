@@ -3,7 +3,7 @@ import { useGLTF, useTexture } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
 
-export function Room(props) {
+export function Room({ theme = "dark", ...props }) {
   const { nodes, materials } = useGLTF("/models/optimized-room.glb");
   const gl = useThree((state) => state.gl);
   const screensRef = useRef();
@@ -51,6 +51,18 @@ export function Room(props) {
       flatShading: false,
     };
 
+    if (theme === "light") {
+      return {
+        curtain: new THREE.MeshLambertMaterial({ ...baseConfig, color: "#d7c8a7" }),
+        body: new THREE.MeshLambertMaterial({ ...baseConfig, color: "#c4d4c8" }),
+        table: new THREE.MeshLambertMaterial({ ...baseConfig, color: "#99734f" }),
+        radiator: new THREE.MeshLambertMaterial({ ...baseConfig, color: "#f4efe2" }),
+        comp: new THREE.MeshLambertMaterial({ ...baseConfig, color: "#e4e5da" }),
+        pillow: new THREE.MeshLambertMaterial({ ...baseConfig, color: "#47765d" }),
+        chair: new THREE.MeshLambertMaterial({ ...baseConfig, color: "#243a33" }),
+      };
+    }
+
     // Materiales simplificados pero iluminados para mantener mejor calidad visual
     if (isLowPerformance) {
       return {
@@ -89,7 +101,26 @@ export function Room(props) {
       pillow: new THREE.MeshPhongMaterial({ color: "#8338ec" }),
       chair: new THREE.MeshPhongMaterial({ color: "#000" }),
     };
-  }, [isMobile, isLowPerformance, matcapTexture]);
+  }, [theme, isMobile, isLowPerformance, matcapTexture]);
+
+  const detailMaterials = useMemo(() => {
+    if (theme !== "light") return materials;
+    const blinn1 = materials.blinn1.clone();
+    const phong1 = materials.phong1.clone();
+    const lambert1 = materials.lambert1.clone();
+    blinn1.color.set("#cbd3c8");
+    phong1.color.set("#b4d5db");
+    phong1.emissive.set("#8dbdc6");
+    phong1.emissiveIntensity = 0.2;
+    lambert1.color.set("#d4e8de");
+    lambert1.emissive.set("#9cc8b7");
+    lambert1.emissiveIntensity = 0.25;
+    return { blinn1, phong1, lambert1 };
+  }, [theme, materials]);
+
+  useEffect(() => () => {
+    if (detailMaterials !== materials) Object.values(detailMaterials).forEach((material) => material.dispose());
+  }, [detailMaterials, materials]);
 
   useEffect(() => {
     return () => {
@@ -117,6 +148,7 @@ export function Room(props) {
   );
 
   const DetailMeshes = useMemo(() => {
+    const materials = detailMaterials;
     if (isLowPerformance) {
       // Mantener solo detalles esenciales para conservar forma y legibilidad
       return (
@@ -159,7 +191,7 @@ export function Room(props) {
         <mesh geometry={nodes.window4_phong1_0.geometry} material={materials.phong1} />
       </>
     );
-  }, [isLowPerformance, materials, optimizedMaterials, nodes]);
+  }, [isLowPerformance, detailMaterials, optimizedMaterials, nodes]);
 
   return (
     <group {...props} dispose={null} frustumCulled={true}>
@@ -167,7 +199,7 @@ export function Room(props) {
         <mesh
           ref={screensRef}
           geometry={nodes.emis_lambert1_0.geometry}
-          material={materials.lambert1}
+          material={detailMaterials.lambert1}
           frustumCulled={true}
         />
       )}

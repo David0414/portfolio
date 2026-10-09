@@ -1,11 +1,13 @@
 import { lazy, Suspense, useCallback, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import usePageVisible from "../hooks/usePageVisible";
+import useTheme from "../hooks/useTheme";
 import SceneBoundary from "./SceneBoundary";
 
 const HeroExperience = lazy(() => import("./models/hero_models/HeroExperience"));
 
 const HeroStage = () => {
+  const daylight = useTheme() === "light";
   const { ref, inView } = useInView({ threshold: 0.05 });
   const pageVisible = usePageVisible();
   const [canLoad, setCanLoad] = useState(false);
@@ -28,7 +30,7 @@ const HeroStage = () => {
       <div className="hero-stage-heading" aria-hidden="true">
         <span>THE DIGITAL WORKSPACE</span><span>01 / EXPLORE</span>
       </div>
-      <img className="hero-poster" src="/images/hero-room.webp"
+      <img className="hero-poster" src={daylight ? "/images/hero-room-day.webp" : "/images/hero-room.webp"}
         alt="A miniature creative workspace with a desk, computer and shelves"
         width="1000" height="909" fetchPriority="high" />
       <SceneBoundary>

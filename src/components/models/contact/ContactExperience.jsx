@@ -4,8 +4,11 @@ import { useInView } from "react-intersection-observer";
 import { Suspense, useMemo, useState, useEffect } from "react";
 import * as THREE from "three";
 import Computer from "./Computer";
+import useTheme from "../../../hooks/useTheme";
+import SceneAppearance from "../SceneAppearance";
 
 const ContactExperience = () => {
+  const daylight = useTheme() === "light";
   const [isMobile, setIsMobile] = useState(false);
   const [isLowPerformance, setIsLowPerformance] = useState(false);
 
@@ -90,6 +93,15 @@ const ContactExperience = () => {
   );
 
   const lightConfig = useMemo(() => {
+    if (daylight) {
+      return {
+        ambient: { intensity: 0.85, color: "#fff9ef" },
+        directional: [
+          { position: [-4, 6, 5], intensity: 2.1, color: "#fff0d6" },
+          ...(!isLowPerformance ? [{ position: [4, 3, 2], intensity: 0.7, color: "#dceee5" }] : []),
+        ],
+      };
+    }
     if (isLowPerformance) {
       return {
         ambient: { intensity: 0.55, color: "#fff4e6" },
@@ -111,7 +123,7 @@ const ContactExperience = () => {
         { position: [5, 9, 1], intensity: 1.5, color: "#ffd9b3" },
       ],
     };
-  }, [isMobile, isLowPerformance]);
+  }, [daylight, isMobile, isLowPerformance]);
 
   const orbitControlsConfig = useMemo(
     () => ({
@@ -140,7 +152,7 @@ const ContactExperience = () => {
     <Html center>
       <div
         style={{
-          color: "#ffd9b3",
+          color: "var(--portfolio-copy)",
           fontSize: isMobile ? "14px" : "16px",
           fontWeight: "300",
           textAlign: "center",
@@ -178,6 +190,9 @@ const ContactExperience = () => {
           }}
         >
           <AdaptiveDpr pixelated />
+          <color attach="background" args={[daylight ? "#e1e7dc" : "#161b24"]} />
+          <SceneAppearance exposure={daylight ? 0.95 : isMobile ? 1.03 : 1.1} />
+          {daylight && <hemisphereLight args={["#edf6ff", "#a7b698", 0.65]} />}
 
           <ambientLight
             intensity={lightConfig.ambient.intensity}
@@ -203,7 +218,9 @@ const ContactExperience = () => {
               frustumCulled={true}
             >
               <planeGeometry args={isMobile ? [20, 20] : [30, 30]} />
-              <meshBasicMaterial color="#a46b2d" transparent={false} fog={false} />
+              {daylight
+                ? <meshStandardMaterial color="#b8c6af" roughness={1} metalness={0} fog={false} />
+                : <meshBasicMaterial color="#a46b2d" transparent={false} fog={false} />}
             </mesh>
           </group>
 
@@ -227,7 +244,7 @@ const ContactExperience = () => {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            color: "#ffd9b3",
+            color: "var(--portfolio-copy)",
             fontSize: "14px",
             opacity: 0.7,
           }}

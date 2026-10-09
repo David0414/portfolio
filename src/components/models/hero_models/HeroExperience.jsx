@@ -3,11 +3,13 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Suspense, useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import useMediaQuery from "../../../hooks/useMediaQuery";
+import useTheme from "../../../hooks/useTheme";
+import SceneAppearance from "../SceneAppearance";
 import { Room } from "./Room";
 import HeroLights from "./HeroLights";
 import Particles from "./Particles";
 
-const Workspace = ({ mobile, animate, onReady }) => {
+const Workspace = ({ mobile, animate, onReady, theme }) => {
   const workspace = useRef();
   const elapsed = useRef(0);
   const announced = useRef(false);
@@ -29,12 +31,14 @@ const Workspace = ({ mobile, animate, onReady }) => {
   return (
     <group ref={workspace} scale={mobile ? 0.88 : 1}
       position={[0, mobile ? -2.6 : -3.1, 0]} rotation={[0, -Math.PI / 4, 0]}>
-      <Room />
+      <Room theme={theme} />
     </group>
   );
 };
 
 const HeroExperience = ({ active = true, onReady }) => {
+  const theme = useTheme();
+  const daylight = theme === "light";
   const mobile = useMediaQuery("(max-width: 767px)");
   const reduceMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
   const [quality, setQuality] = useState(() =>
@@ -58,16 +62,17 @@ const HeroExperience = ({ active = true, onReady }) => {
       }}
       style={{ pointerEvents: "auto", touchAction: "none" }}
     >
-      <ambientLight intensity={0.3} color="#b3c9ef" />
+      <SceneAppearance exposure={daylight ? 1 : 1.12} />
+      <ambientLight intensity={daylight ? 0.65 : 0.3} color={daylight ? "#fff7e8" : "#b3c9ef"} />
       <OrbitControls enablePan={false} enableZoom={false} enableRotate={active}
         rotateSpeed={mobile ? 0.65 : 0.5}
         enableDamping={!reduceMotion} dampingFactor={0.08}
         minPolarAngle={Math.PI / 3} maxPolarAngle={Math.PI / 2}
         minAzimuthAngle={-0.65} maxAzimuthAngle={0.65} target={[0, -1, 0]} />
       <Suspense fallback={null}>
-        <HeroLights />
-        {active && animate && !mobile && <Particles count={25} />}
-        <Workspace mobile={mobile} animate={animate && active} onReady={onReady} />
+        <HeroLights theme={theme} />
+        {!daylight && active && animate && !mobile && <Particles count={25} />}
+        <Workspace mobile={mobile} animate={animate && active} onReady={onReady} theme={theme} />
         {active && animate && (
           <PerformanceMonitor iterations={5} bounds={() => [28, 55]}
             onDecline={() => setQuality("low")} />

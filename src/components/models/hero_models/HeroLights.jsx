@@ -1,6 +1,6 @@
 import { useMemo, useState, useEffect } from "react";
 
-const HeroLights = () => {
+const HeroLights = ({ theme = "dark" }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [isLowPerformance, setIsLowPerformance] = useState(false);
 
@@ -114,6 +114,16 @@ const HeroLights = () => {
       },
     };
   }, [isMobile, isLowPerformance]);
+
+  if (theme === "light") {
+    return (
+      <>
+        <hemisphereLight args={["#f4f9ff", "#b7bea4", 1.35]} />
+        <directionalLight position={[-3, 6, 5]} intensity={2.3} color="#fff1d6" castShadow={false} />
+        {!isLowPerformance && <directionalLight position={[4, 3, 2]} intensity={0.75} color="#dbeee7" castShadow={false} />}
+      </>
+    );
+  }
 
   if (isLowPerformance) {
     return (

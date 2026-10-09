@@ -5,6 +5,7 @@
   --portfolio-bg: #08090b;
   --portfolio-surface: #111318;
   --portfolio-surface-soft: #1b2028;
+  --portfolio-media-bg: #101014;
   --portfolio-text: #eff3f6;
   --portfolio-heading: #f1f4f6;
   --portfolio-copy: #aab3bd;
@@ -34,6 +35,7 @@
   --portfolio-bg: #e9e7de;
   --portfolio-surface: #fbfaf4;
   --portfolio-surface-soft: #dee5d7;
+  --portfolio-media-bg: #d4decf;
   --portfolio-section: #dce3d6;
   --portfolio-panel: #f3f1e8;
   --portfolio-text: #233b34;
@@ -147,6 +149,8 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--portfolio-accen
 .project-links a { font-size: 13px; padding: 9px 13px; }
 .view-projects { display: flex; cursor: pointer; margin: 36px auto 0; }
 .video-play-button { position: absolute; z-index: 2; top: 12px; left: 12px; display: flex; gap: 7px; align-items: center; background: #08090bd9; color: white; border: 1px solid #ffffff22; border-radius: 999px; padding: 8px 12px; font-size: 12px; cursor: pointer; min-height: 36px; }
+:root[data-theme="light"] .video-play-button { background: var(--portfolio-surface); color: var(--portfolio-text); border-color: var(--portfolio-border-strong); }
+:root[data-theme="light"] .video-play-button:hover { background: var(--portfolio-surface-soft); }
 .portfolio-work .project-media { border-radius: 10px; }
 
 .section-title { width: 100%; max-width: 1440px; margin: auto; }

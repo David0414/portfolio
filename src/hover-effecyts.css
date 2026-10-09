@@ -6,7 +6,8 @@
 .app-showcase .project-media {
   width: 100%;
   aspect-ratio: 16 / 9;
-  background: #101014;
+  background: var(--portfolio-media-bg, #101014);
+  transition: background-color 0.35s ease;
 }
 
 .app-showcase .project-media img,
